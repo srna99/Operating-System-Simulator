@@ -1,0 +1,13 @@
+Name: Photo Editor
+Total Runtime: 235
+Memory: 60
+
+I/O 40
+CALCULATE 50
+YIELD
+CALCULATE 85
+YIELD
+CALCULATE 70
+I/O 10
+CALCULATE 30
+EXE

@@ -1,0 +1,12 @@
+Name: Text Processor
+Total Runtime: 200
+Memory: 50
+
+CALCULATE 60
+CALCULATE 20
+I/O 30
+CALCULATE 75
+I/O 45
+CALCULATE 45
+OUT
+EXE
