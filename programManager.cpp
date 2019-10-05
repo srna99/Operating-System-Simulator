@@ -6,6 +6,7 @@
 
 #include "programManager.h"
 #include <fstream>
+#include <iostream>
 
 using namespace std;
 
@@ -53,3 +54,21 @@ string programManager::chooseFile(int number) {
 
 }
 
+void programManager::openProgram(program process) {
+
+	ifstream inFile;
+
+	inFile.open(process.getFilePath());
+
+	if (!inFile) {
+
+		cout << "Unable to open file.";
+		exit(1);
+
+	} else {
+
+	}
+
+	inFile.close();
+
+}

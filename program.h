@@ -19,8 +19,8 @@ class program {
 		virtual ~program();
 
 		pcb getPcb();
+		std::string getFilePath();
 		void setFilePath(std::string path);
-		void openProgram(int processId);
 
 	private:
 

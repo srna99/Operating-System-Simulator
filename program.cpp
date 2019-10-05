@@ -20,29 +20,9 @@ program::program(string path) {
 }
 program::~program() {}
 
-pcb program::getPcb() {
-	return currentPcb;
-}
+pcb program::getPcb() { return currentPcb; }
 
+string program::getFilePath() { return filePath; }
 void program::setFilePath(string path) {
 	filePath = path;
-}
-
-void program::openProgram(int processId) {
-
-	ifstream inFile;
-
-	inFile.open(filePath);
-
-	if (!inFile) {
-
-		cout << "Unable to open file.";
-		exit(1);
-
-	} else {
-
-	}
-
-	inFile.close();
-
 }

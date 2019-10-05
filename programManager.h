@@ -22,6 +22,7 @@ class programManager {
 		virtual ~programManager();
 
 		void createProgram(int programNumber, int numberToMake);
+		void openProgram(program process);
 
 	private:
 
