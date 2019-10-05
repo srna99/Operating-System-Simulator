@@ -5,21 +5,12 @@
  */
 
 #include "pcb.h"
-#include <cstring>
 
 using namespace std;
 
 
-int processId;
-State state;
-int runtime;
-int pc;
+pcb::pcb() {
 
-dispatcher dp;
-
-pcb::pcb(int processId) {
-
-	setProcessId(processId);
 	setState(New);
 	setRuntime(0);
 	setPc(1);
@@ -35,7 +26,7 @@ void pcb::setProcessId(int number){
 
 State pcb::getState() { return state; }
 void pcb::setState(State currentState) {
-	state = dp.updateState(currentState);
+	state = currentState;
 }
 
 int pcb::getRuntime() { return runtime; }

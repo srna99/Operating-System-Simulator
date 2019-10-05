@@ -1,31 +1,29 @@
 /*
- * programCreator.cpp
+ * programManager.cpp
  *
  *      Author: Serena Cheng
  */
 
-#include "programCreator.h"
-
-#include "program.h"
-#include <cstring>
+#include "programManager.h"
 
 using namespace std;
 
 
-programCreator::programCreator() {};
-programCreator::~programCreator() {};
+programManager::programManager() {};
+programManager::~programManager() {};
 
-void programCreator::createProgram(int programNumber, int numberToMake) {
+void programManager::createProgram(int programNumber, int numberToMake) {
 
 	string filePath = chooseFile(programNumber);
 
 	for(int i = 0; i < numberToMake; i++) {
-		program process(filePath);
+		program process();
+
 	}
 
 }
 
-string programCreator::chooseFile(int number) {
+string programManager::chooseFile(int number) {
 
 	string filePath = "template files/program_file";
 

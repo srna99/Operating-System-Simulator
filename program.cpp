@@ -5,26 +5,30 @@
  */
 
 #include "program.h"
-#include <cstring>
 #include <fstream>
 #include <iostream>
+#include <unordered_map>
 
 using namespace std;
 
 
 int program::idCounter = 1;
-string filePath;
 
-program::program(string path) {
-
-	pcb currentPcb(idCounter++);
-	filePath = path;
-
+program::program() {
+	currentPcb.setProcessId(idCounter++);
 }
 
 program::~program() {}
 
-void program::openProgram(string filePath) {
+int program::getProcessId() {
+	return currentPcb.getProcessId();
+}
+
+void program::setFilePath(string path) {
+	filePath = path;
+}
+
+void program::openProgram(int processId) {
 
 	ifstream inFile;
 
@@ -32,7 +36,7 @@ void program::openProgram(string filePath) {
 
 	if (!inFile) {
 
-		cout << "Unable to open file";
+		cout << "Unable to open file.";
 		exit(1);
 
 	} else {

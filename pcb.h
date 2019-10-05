@@ -7,13 +7,13 @@
 #ifndef PCB_H_
 #define PCB_H_
 
-#include "dispatcher.h"
+enum State { New, Running, Waiting, Ready, Terminated };
 
 class pcb {
 
 	public:
 
-		pcb(int processId);
+		pcb();
 		virtual ~pcb();
 
 		int getProcessId();

@@ -9,19 +9,24 @@
 
 #include "pcb.h"
 #include <string>
+#include <unordered_map>
 
 class program {
 
 	public:
 
-		program(std::string path);
+		program();
 		virtual ~program();
 
-		void openProgram(std::string filePath);
+		int getProcessId();
+		void setFilePath(std::string path);
+		void openProgram(int processId);
 
 	private:
 
 		static int idCounter;
+		pcb currentPcb;
+		std::string filePath;
 
 };
 

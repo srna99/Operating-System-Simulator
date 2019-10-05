@@ -7,7 +7,7 @@
 #ifndef DISPATCHER_H_
 #define DISPATCHER_H_
 
-enum State { New, Running, Waiting, Ready, Terminated };
+#include "pcb.h"
 
 class dispatcher {
 
@@ -16,7 +16,7 @@ class dispatcher {
 		dispatcher();
 		virtual ~dispatcher();
 
-		State updateState(State currentState);
+		void updateState(State currentState, pcb currentPcb);
 
 };
 

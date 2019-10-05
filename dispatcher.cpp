@@ -6,10 +6,11 @@
 
 #include "dispatcher.h"
 
+
 dispatcher::dispatcher() {}
 
 dispatcher::~dispatcher() {}
 
-State dispatcher::updateState(State currentState) {
-	return currentState;
+void dispatcher::updateState(State currentState, pcb currentPcb) {
+	currentPcb.setState(currentState);
 }
