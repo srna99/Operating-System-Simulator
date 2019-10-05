@@ -7,7 +7,7 @@
 #ifndef PCB_H_
 #define PCB_H_
 
-enum State { New, Running, Waiting, Ready, Terminated };
+#include "dispatcher.h"
 
 class pcb {
 
