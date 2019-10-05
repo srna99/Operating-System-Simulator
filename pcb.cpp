@@ -13,16 +13,16 @@ using namespace std;
 int processId;
 State state;
 int runtime;
-int *pc;
+int pc;
 
 dispatcher dp;
 
-pcb::pcb(int processId, int *pc) {
+pcb::pcb(int processId) {
 
 	setProcessId(processId);
 	setState(New);
 	setRuntime(0);
-	setPc(pc);
+	setPc(1);
 
 }
 
@@ -43,7 +43,7 @@ void pcb::setRuntime(int time){
 	runtime = time;
 }
 
-int * pcb::getPc() { return pc; }
-void pcb::setPc(int *address){
+int pcb::getPc() { return pc; }
+void pcb::setPc(int address){
 	pc = address;
 }

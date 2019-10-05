@@ -13,7 +13,7 @@ class pcb {
 
 	public:
 
-		pcb(int processId, int *pc);
+		pcb(int processId);
 		virtual ~pcb();
 
 		int getProcessId();
@@ -22,15 +22,15 @@ class pcb {
 		void setState(State currentState);
 		int getRuntime();
 		void setRuntime(int time);
-		int * getPc();
-		void setPc(int *address);
+		int getPc();
+		void setPc(int address);
 
 	private:
 
 		int processId;
 		State state;
 		int runtime;
-		int *pc;
+		int pc;
 
 };
 
