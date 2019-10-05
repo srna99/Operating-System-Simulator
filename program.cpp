@@ -7,21 +7,21 @@
 #include "program.h"
 #include <fstream>
 #include <iostream>
-#include <unordered_map>
 
 using namespace std;
 
 
 int program::idCounter = 1;
 
-program::program() {
+program::program() {}
+program::program(string path) {
 	currentPcb.setProcessId(idCounter++);
+	setFilePath(path);
 }
-
 program::~program() {}
 
-int program::getProcessId() {
-	return currentPcb.getProcessId();
+pcb program::getPcb() {
+	return currentPcb;
 }
 
 void program::setFilePath(string path) {

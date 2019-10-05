@@ -6,8 +6,6 @@
 
 #include "pcb.h"
 
-using namespace std;
-
 
 pcb::pcb() {
 

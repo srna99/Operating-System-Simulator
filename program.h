@@ -9,16 +9,16 @@
 
 #include "pcb.h"
 #include <string>
-#include <unordered_map>
 
 class program {
 
 	public:
 
 		program();
+		program(std::string path);
 		virtual ~program();
 
-		int getProcessId();
+		pcb getPcb();
 		void setFilePath(std::string path);
 		void openProgram(int processId);
 

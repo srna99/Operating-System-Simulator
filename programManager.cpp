@@ -5,9 +5,12 @@
  */
 
 #include "programManager.h"
+#include <fstream>
 
 using namespace std;
 
+
+program processes[MAX_SIZE];
 
 programManager::programManager() {};
 programManager::~programManager() {};
@@ -17,7 +20,11 @@ void programManager::createProgram(int programNumber, int numberToMake) {
 	string filePath = chooseFile(programNumber);
 
 	for(int i = 0; i < numberToMake; i++) {
-		program process();
+
+		program process(filePath);
+		dp.updateState(New, process.getPcb());
+
+		processes[i] = process;
 
 	}
 

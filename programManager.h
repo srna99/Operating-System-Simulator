@@ -8,8 +8,11 @@
 #define PROGRAMMANAGER_H_
 
 #include "program.h"
+#include "dispatcher.h"
 #include <string>
-#include <map>
+
+const static int MAX_SIZE = 100;
+extern program processes[MAX_SIZE];
 
 class programManager {
 
@@ -22,7 +25,7 @@ class programManager {
 
 	private:
 
-		std::map<int, std::string> processes;
+		dispatcher dp;
 		std::string chooseFile(int number);
 
 };
