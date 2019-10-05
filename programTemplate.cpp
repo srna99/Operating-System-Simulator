@@ -25,7 +25,11 @@ void programTemplate::openProgram(int programNumber, int numberToMake) {
 		infile.clear();
 		infile.open(name);
 
-
+		if (!infile) {
+			cout << "Unable to open file";
+			exit(1);
+		} else
+			cout << "Here" << endl;
 
 		infile.close();
 
@@ -35,16 +39,18 @@ void programTemplate::openProgram(int programNumber, int numberToMake) {
 
 string programTemplate::chooseFile(int number) {
 
+	string filePath = "template files/program_file";
+
 	switch(number) {
 
 	case 1:
-		return "program_file1.txt";
+		return filePath + "1.txt";
 	case 2:
-		return "program_file2.txt";
+		return filePath + "2.txt";
 	case 3:
-		return "program_file3.txt";
+		return filePath + "3.txt";
 	case 4:
-		return "program_file1.txt";
+		return filePath + "4.txt";
 	default:
 		break;
 
