@@ -15,7 +15,7 @@ class programTemplate {
 
 		void openProgram(int programNumber, int numberToMake);
 		programTemplate();
-		~programTemplate();
+		virtual ~programTemplate();
 
 	private:
 

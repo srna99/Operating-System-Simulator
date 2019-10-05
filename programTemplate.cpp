@@ -5,11 +5,15 @@
  */
 
 #include "programTemplate.h"
-#include <cstdlib>
+#include <cstring>
 #include <fstream>
 #include <iostream>
 
 using namespace std;
+
+
+programTemplate::programTemplate() {};
+programTemplate::~programTemplate() {};
 
 void programTemplate::openProgram(int programNumber, int numberToMake) {
 
@@ -20,15 +24,14 @@ void programTemplate::openProgram(int programNumber, int numberToMake) {
 
 		infile.clear();
 		infile.open(name);
-		cout << "Here" << endl;
+
+
+
 		infile.close();
 
 	}
 
 }
-
-programTemplate::programTemplate() {};
-programTemplate::~programTemplate() {};
 
 string programTemplate::chooseFile(int number) {
 
