@@ -5,7 +5,6 @@
  */
 
 #include "scheduler.h"
-#include <iostream>
 
 using namespace std;
 
@@ -19,7 +18,6 @@ void scheduler::initializeReadyQueue(vector<program> processes) {
 
 		dp.updateState(Ready, processes[i].getPcb());
 		readyQ.push(processes[i]);
-		cout << "sch " << processes[i].getPcb().getState() << endl;
 
 	}
 

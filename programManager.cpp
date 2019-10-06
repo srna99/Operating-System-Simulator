@@ -29,7 +29,7 @@ void programManager::createProgram(int programNumber, int numberToMake) {
 		dp.updateState(New, process.getPcb());
 
 		processes.push_back(process);
-		cout << "pm " << process.getPcb().getState() << endl;
+
 	}
 
 }

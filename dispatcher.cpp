@@ -11,6 +11,6 @@
 dispatcher::dispatcher() {}
 dispatcher::~dispatcher() {}
 
-void dispatcher::updateState(State currentState, pcb currentPcb) {
-	currentPcb.setState(currentState); std::cout << "dp " << currentState << std::endl;
+void dispatcher::updateState(State currentState, pcb *currentPcb) {
+	currentPcb->setState(currentState);
 }

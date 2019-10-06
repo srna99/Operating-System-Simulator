@@ -16,7 +16,7 @@ class dispatcher {
 		dispatcher();
 		virtual ~dispatcher();
 
-		void updateState(State currentState, pcb currentPcb);
+		void updateState(State currentState, pcb *currentPcb);
 
 };
 

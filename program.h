@@ -14,11 +14,10 @@ class program {
 
 	public:
 
-		program();
 		program(std::string path);
 		virtual ~program();
 
-		pcb getPcb();
+		pcb * getPcb();
 		std::string getFilePath();
 		void setFilePath(std::string path);
 

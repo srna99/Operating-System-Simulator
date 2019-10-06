@@ -23,7 +23,7 @@ class pcb {
 		int getRuntime();
 		void setRuntime(int time);
 		int getPc();
-		void setPc(int address);
+		void setPc(int line);
 
 	private:
 
