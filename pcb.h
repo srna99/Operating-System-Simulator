@@ -7,7 +7,7 @@
 #ifndef PCB_H_
 #define PCB_H_
 
-enum State { New, Running, Waiting, Ready, Terminated };
+enum State { New, Ready, Run, Wait, Exit };
 
 class pcb {
 

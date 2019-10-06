@@ -11,10 +11,13 @@
 using namespace std;
 
 
-program processes[MAX_SIZE];
+programManager::programManager() {}
+programManager::~programManager() {}
 
-programManager::programManager() {};
-programManager::~programManager() {};
+vector<program> programManager::getProcesses() {
+	processes.shrink_to_fit();
+	return processes;
+}
 
 void programManager::createProgram(int programNumber, int numberToMake) {
 
@@ -25,8 +28,8 @@ void programManager::createProgram(int programNumber, int numberToMake) {
 		program process(filePath);
 		dp.updateState(New, process.getPcb());
 
-		processes[i] = process;
-
+		processes.push_back(process);
+		cout << "pm " << process.getPcb().getState() << endl;
 	}
 
 }

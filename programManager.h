@@ -10,9 +10,7 @@
 #include "program.h"
 #include "dispatcher.h"
 #include <string>
-
-const static int MAX_SIZE = 100;
-extern program processes[MAX_SIZE];
+#include <vector>
 
 class programManager {
 
@@ -21,11 +19,13 @@ class programManager {
 		programManager();
 		virtual ~programManager();
 
+		std::vector<program> getProcesses();
 		void createProgram(int programNumber, int numberToMake);
 		void openProgram(program process);
 
 	private:
 
+		std::vector<program> processes;
 		dispatcher dp;
 		std::string chooseFile(int number);
 

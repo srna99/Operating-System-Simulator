@@ -4,7 +4,7 @@
  *      Author: Serena Cheng
  */
 
-#include "programManager.h"
+#include "scheduler.h"
 #include <iostream>
 
 using namespace std;
@@ -31,6 +31,9 @@ int main() {
 	cin >> num;
 	manager.createProgram(4, num);
 
+	vector<program> processes = manager.getProcesses();
+
+	scheduler sch(processes);
 
 	return 0;
 
