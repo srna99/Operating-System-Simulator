@@ -35,6 +35,7 @@ int main() {
 	vector<program> processes = pm.getProcesses();
 
 	scheduler::instance().initializeReadyQueue(processes);
+	scheduler::instance().process();
 
 	return 0;
 

@@ -109,7 +109,7 @@ void programManager::readFile(ifstream *inFile, program process) {
 		} else if (line.find("OUT") != -1) {
 			op.out(process);
 		} else if (line.find("EXE") != -1) {
-			dp.updateState(Exit, process.getPcb());
+			op.exit();
 		}
 
 	}

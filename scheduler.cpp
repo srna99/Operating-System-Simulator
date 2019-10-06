@@ -24,15 +24,20 @@ void scheduler::initializeReadyQueue(vector<program> processes) {
 
 }
 
-//void scheduler::beginProcessing() {
-//	while (readyQ.size() > 0) {
-//		pm.openProgram(readyQ.front());
-//	}
-//}
+void scheduler::process() {
+	while (readyQ.size() > 0) {
+		pm.openProgram(readyQ.front());
+	}
+}
 
 void scheduler::yieldInReadyQ() {
 	dp.updateState(Ready, readyQ.front().getPcb());
 	readyQ.push(readyQ.front());
+	readyQ.pop();
+}
+
+void scheduler::removeFromReadyQ() {
+	dp.updateState(Exit, readyQ.front().getPcb());
 	readyQ.pop();
 }
 

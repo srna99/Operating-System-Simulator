@@ -47,3 +47,7 @@ void operation::out(program process) {
 	cout << "PC: " << process.getPcb()->getPc() << endl;
 
 }
+
+void operation::exit() {
+	scheduler::instance().removeFromReadyQ();
+}

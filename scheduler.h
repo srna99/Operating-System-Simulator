@@ -20,7 +20,9 @@ class scheduler {
 		virtual ~scheduler();
 
 		void initializeReadyQueue(std::vector<program> processes);
+		void process();
 		void yieldInReadyQ();
+		void removeFromReadyQ();
 		void addToWaitQ();
 		void removeFromWaitQ();
 

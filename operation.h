@@ -20,6 +20,7 @@ class operation {
 		void wait(program process, int cycles);
 		void yield(program process);
 		void out(program process);
+		void exit();
 
 };
 
