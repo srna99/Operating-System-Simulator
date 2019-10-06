@@ -7,6 +7,7 @@
 #include "programManager.h"
 #include <fstream>
 #include <iostream>
+#include <random>
 
 using namespace std;
 
@@ -29,7 +30,7 @@ void programManager::createProgram(int programNumber, int numberToMake) {
 		dp.updateState(New, process.getPcb());
 
 		processes.push_back(process);
-		openProgram(process);
+
 	}
 
 }
@@ -97,15 +98,30 @@ void programManager::readFile(ifstream *inFile, program process) {
 	string line;
 	while (getline(*inFile, line)) {
 
-		process.getPcb()->setPc(linePC++);
+		process.getPcb()->setPc(++linePC);
 
-		if (line.find("CALCULATE") != -1 || line.find("I/O") != -1 || line.find("YIELD") != -1 ||
-				line.find("OUT") != -1) {
-			cout << line << endl;
+		if (line.find("CALCULATE") != -1) {
+			op.calculate(process, generateRandomNumber());
+		} else if (line.find("I/O") != -1) {
+			op.wait(process, generateRandomNumber());
+		} else if (line.find("YIELD") != -1) {
+			op.yield(process);
+		} else if (line.find("OUT") != -1) {
+			op.out(process);
 		} else if (line.find("EXE") != -1) {
-
+			dp.updateState(Exit, process.getPcb());
 		}
 
 	}
+
+}
+
+int programManager::generateRandomNumber() {
+
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> range(10, 100);
+
+	return range(gen);
 
 }

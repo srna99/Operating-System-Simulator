@@ -7,7 +7,7 @@
 #ifndef OPERATION_H_
 #define OPERATION_H_
 
-#include "scheduler.h"
+#include "program.h"
 
 class operation {
 
@@ -16,9 +16,9 @@ class operation {
 		operation();
 		virtual ~operation();
 
-		void calculate(int cycles);
-		void wait(int cycles);
-		void yield();
+		void calculate(program process, int cycles);
+		void wait(program process, int cycles);
+		void yield(program process);
 		void out(program process);
 
 };

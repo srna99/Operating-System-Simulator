@@ -7,6 +7,7 @@
 #ifndef SCHEDULER_H_
 #define SCHEDULER_H_
 
+#include "programManager.h"
 #include "program.h"
 #include "dispatcher.h"
 #include <queue>
@@ -15,15 +16,21 @@ class scheduler {
 
 	public:
 
-		scheduler(std::vector<program> processes);
+		static scheduler& instance() { static scheduler sch; return sch; };
 		virtual ~scheduler();
+
+		void initializeReadyQueue(std::vector<program> processes);
+		void yieldInReadyQ();
+		void addToWaitQ();
+		void removeFromWaitQ();
 
 	private:
 
+		scheduler();
 		std::queue<program> readyQ;
 		std::queue<program> waitQ;
 		dispatcher dp;
-		void initializeReadyQueue(std::vector<program> processes);
+		programManager pm;
 
 };
 
