@@ -9,7 +9,6 @@
 
 #include "program.h"
 #include "dispatcher.h"
-#include <string>
 #include <vector>
 
 class programManager {
@@ -28,6 +27,7 @@ class programManager {
 		std::vector<program> processes;
 		dispatcher dp;
 		std::string chooseFile(int number);
+		void readFile(std::ifstream *inFile);
 
 };
 

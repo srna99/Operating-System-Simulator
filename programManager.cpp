@@ -29,7 +29,7 @@ void programManager::createProgram(int programNumber, int numberToMake) {
 		dp.updateState(New, process.getPcb());
 
 		processes.push_back(process);
-
+		openProgram(process);
 	}
 
 }
@@ -69,9 +69,18 @@ void programManager::openProgram(program process) {
 		exit(1);
 
 	} else {
-
+		readFile(&inFile);
 	}
 
 	inFile.close();
+
+}
+
+void programManager::readFile(ifstream *inFile) {
+
+	string line;
+	while (getline(*inFile, line)) {
+		cout << line << endl;
+	}
 
 }

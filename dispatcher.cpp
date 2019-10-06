@@ -5,7 +5,6 @@
  */
 
 #include "dispatcher.h"
-#include <iostream>
 
 
 dispatcher::dispatcher() {}
