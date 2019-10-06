@@ -5,6 +5,7 @@
  */
 
 #include "programManager.h"
+#include "operation.h"
 #include <fstream>
 #include <iostream>
 
@@ -92,7 +93,7 @@ void programManager::readFile(ifstream *inFile, program process) {
 
 	int linePC = process.getPcb()->getPc();
 
-	goToLine(inFile, 7, process);
+	goToLine(inFile, linePC, process);
 
 	string line;
 	while (getline(*inFile, line)) {
