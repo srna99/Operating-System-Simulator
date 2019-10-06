@@ -7,7 +7,8 @@
 #ifndef SCHEDULER_H_
 #define SCHEDULER_H_
 
-#include "programManager.h"
+#include "program.h"
+#include "dispatcher.h"
 #include <queue>
 
 class scheduler {

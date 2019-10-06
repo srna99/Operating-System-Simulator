@@ -5,7 +5,6 @@
  */
 
 #include "programManager.h"
-#include "operation.h"
 #include <fstream>
 #include <iostream>
 

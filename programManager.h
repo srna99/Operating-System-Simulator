@@ -9,6 +9,7 @@
 
 #include "program.h"
 #include "dispatcher.h"
+#include "operation.h"
 #include <vector>
 
 class programManager {
@@ -26,6 +27,7 @@ class programManager {
 
 		std::vector<program> processes;
 		dispatcher dp;
+		operation op;
 		std::pair<std::string, std::string> chooseFile(int number);
 		std::ifstream * goToLine(std::ifstream *inFile, int lineNumber, program process);
 		void readFile(std::ifstream *inFile, program process);
