@@ -11,13 +11,21 @@ using namespace std;
 
 int program::idCounter = 1;
 
-program::program(string path) {
+program::program(string name, string path) {
+
 	currentPcb.setProcessId(idCounter++);
+	setName(name);
 	setFilePath(path);
+
 }
 program::~program() {}
 
 pcb * program::getPcb() { return &currentPcb; }
+
+string program::getName() { return name; }
+void program::setName(string fileName) {
+	name = fileName;
+}
 
 string program::getFilePath() { return filePath; }
 void program::setFilePath(string path) {

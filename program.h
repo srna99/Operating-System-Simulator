@@ -14,10 +14,12 @@ class program {
 
 	public:
 
-		program(std::string path);
+		program(std::string name, std::string path);
 		virtual ~program();
 
 		pcb * getPcb();
+		std::string getName();
+		void setName(std::string fileName);
 		std::string getFilePath();
 		void setFilePath(std::string path);
 
@@ -26,6 +28,7 @@ class program {
 		static int idCounter;
 		pcb currentPcb;
 		std::string filePath;
+		std::string name;
 
 };
 

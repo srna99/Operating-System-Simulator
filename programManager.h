@@ -26,8 +26,9 @@ class programManager {
 
 		std::vector<program> processes;
 		dispatcher dp;
-		std::string chooseFile(int number);
-		void readFile(std::ifstream *inFile);
+		std::pair<std::string, std::string> chooseFile(int number);
+		std::ifstream * goToLine(std::ifstream *inFile, int lineNumber, program process);
+		void readFile(std::ifstream *inFile, program process);
 
 };
 

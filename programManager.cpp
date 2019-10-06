@@ -21,11 +21,11 @@ vector<program> programManager::getProcesses() {
 
 void programManager::createProgram(int programNumber, int numberToMake) {
 
-	string filePath = chooseFile(programNumber);
+	pair<string, string> data = chooseFile(programNumber);
 
 	for(int i = 0; i < numberToMake; i++) {
 
-		program process(filePath);
+		program process(data.first, data.second);
 		dp.updateState(New, process.getPcb());
 
 		processes.push_back(process);
@@ -34,26 +34,26 @@ void programManager::createProgram(int programNumber, int numberToMake) {
 
 }
 
-string programManager::chooseFile(int number) {
+pair<string, string> programManager::chooseFile(int number) {
 
 	string filePath = "template files/program_file";
 
 	switch(number) {
 
 	case 1:
-		return filePath + "1.txt";
+		return make_pair("Text Processor", filePath + "1.txt");
 	case 2:
-		return filePath + "2.txt";
+		return make_pair("Web Browser", filePath + "2.txt");
 	case 3:
-		return filePath + "3.txt";
+		return make_pair("Photo Editor", filePath + "3.txt");
 	case 4:
-		return filePath + "4.txt";
+		return make_pair("Music Player", filePath + "4.txt");
 	default:
 		break;
 
 	}
 
-	return "";
+	return make_pair("", "");
 
 }
 
@@ -69,18 +69,43 @@ void programManager::openProgram(program process) {
 		exit(1);
 
 	} else {
-		readFile(&inFile);
+		readFile(&inFile, process);
 	}
 
 	inFile.close();
 
 }
 
-void programManager::readFile(ifstream *inFile) {
+ifstream * programManager::goToLine(ifstream *inFile, int lineNumber, program process) {
+
+	inFile->seekg(ios::beg);
+
+	for (int i = 0; i < lineNumber - 1; i++) {
+		inFile->ignore(1000,'\n');
+	}
+
+	return inFile;
+
+}
+
+void programManager::readFile(ifstream *inFile, program process) {
+
+	int linePC = process.getPcb()->getPc();
+
+	goToLine(inFile, 7, process);
 
 	string line;
 	while (getline(*inFile, line)) {
-		cout << line << endl;
+
+		process.getPcb()->setPc(linePC++);
+
+		if (line.find("CALCULATE") != -1 || line.find("I/O") != -1 || line.find("YIELD") != -1 ||
+				line.find("OUT") != -1) {
+			cout << line << endl;
+		} else if (line.find("EXE") != -1) {
+
+		}
+
 	}
 
 }
