@@ -58,11 +58,11 @@ pair<string, string> programManager::chooseFile(int number) {
 
 }
 
-void programManager::openProgram(program process) {
+void programManager::openProgram(program *process) {
 
 	ifstream inFile;
 
-	inFile.open(process.getFilePath());
+	inFile.open(process->getFilePath());
 
 	if (!inFile) {
 
@@ -70,14 +70,14 @@ void programManager::openProgram(program process) {
 		exit(1);
 
 	} else {
-		readFile(&inFile, process);
+		readFile(&inFile, *process);
 	}
 
 	inFile.close();
 
 }
 
-ifstream * programManager::goToLine(ifstream *inFile, int lineNumber, program process) {
+ifstream * programManager::goToLine(ifstream *inFile, int lineNumber, program &process) {
 
 	inFile->seekg(ios::beg);
 
@@ -89,7 +89,7 @@ ifstream * programManager::goToLine(ifstream *inFile, int lineNumber, program pr
 
 }
 
-void programManager::readFile(ifstream *inFile, program process) {
+void programManager::readFile(ifstream *inFile, program &process) {
 
 	int linePC = process.getPcb()->getPc();
 
@@ -101,6 +101,7 @@ void programManager::readFile(ifstream *inFile, program process) {
 		process.getPcb()->setPc(++linePC);
 
 		if (line.find("CALCULATE") != -1) {
+			dp.updateState(Run, process.getPcb());
 			op.calculate(generateRandomNumber());
 		} else if (line.find("I/O") != -1) {
 			op.wait(generateRandomNumber());
@@ -120,8 +121,9 @@ int programManager::generateRandomNumber() {
 
 	random_device rd;
 	mt19937 gen(rd());
-	uniform_int_distribution<> range(10, 100);
-
-	return range(gen);
+	uniform_int_distribution<> range(50, 100);
+	int x = range(gen);
+//	cout << "rand " << x << endl;
+	return x;
 
 }

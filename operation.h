@@ -19,8 +19,9 @@ class operation {
 		void calculate(int cycles);
 		void wait(int cycles);
 		void yield();
-		void out(program process);
+		void out(program &process);
 		void exit();
+		void cycleLoop(int cycles, bool isCalc);
 
 };
 

@@ -21,7 +21,7 @@ class programManager {
 
 		std::vector<program> getProcesses();
 		void createProgram(int programNumber, int numberToMake);
-		void openProgram(program process);
+		void openProgram(program *process);
 
 	private:
 
@@ -29,8 +29,8 @@ class programManager {
 		dispatcher dp;
 		operation op;
 		std::pair<std::string, std::string> chooseFile(int number);
-		std::ifstream * goToLine(std::ifstream *inFile, int lineNumber, program process);
-		void readFile(std::ifstream *inFile, program process);
+		std::ifstream * goToLine(std::ifstream *inFile, int lineNumber, program &process);
+		void readFile(std::ifstream *inFile, program &process);
 		int generateRandomNumber();
 
 };

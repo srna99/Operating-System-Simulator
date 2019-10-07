@@ -8,12 +8,13 @@
 
 using namespace std;
 
-
-int program::idCounter = 1;
+//extern int idCounter = 1;
 
 program::program(string name, string path) {
 
-	currentPcb.setProcessId(idCounter++);
+	currentPcb.setProcessId(rand());
+	incrementIdCounter();
+
 	setName(name);
 	setFilePath(path);
 
@@ -31,3 +32,5 @@ string program::getFilePath() { return filePath; }
 void program::setFilePath(string path) {
 	filePath = path;
 }
+
+void program::incrementIdCounter() {} //idCounter++; }

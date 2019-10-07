@@ -22,6 +22,7 @@ class pcb {
 		void setState(State currentState);
 		int getRuntime();
 		void setRuntime(int time);
+		void incrementRuntime();
 		int getPc();
 		void setPc(int line);
 

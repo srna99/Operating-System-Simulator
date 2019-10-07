@@ -25,10 +25,10 @@ class program {
 
 	private:
 
-		static int idCounter;
 		pcb currentPcb;
 		std::string filePath;
 		std::string name;
+		void incrementIdCounter();
 
 };
 
