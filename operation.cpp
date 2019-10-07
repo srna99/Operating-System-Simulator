@@ -14,21 +14,22 @@ using namespace std;
 operation::operation() {}
 operation::~operation() {}
 
-void operation::calculate(program process, int cycles) {
+void operation::calculate(int cycles) {
 
 	cout << "c" << endl;
 
 }
 
-void operation::wait(program process, int cycles) {
+void operation::wait(int cycles) {
 
 	cout << "w" << endl;
 
+	scheduler::instance().updateCycles(cycles);
 	scheduler::instance().addToWaitQ();
 
 }
 
-void operation::yield(program process) {
+void operation::yield() {
 
 	cout << "y" << endl;
 

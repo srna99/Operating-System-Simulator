@@ -7,8 +7,15 @@
 #include "programManager.h"
 #include "scheduler.h"
 #include <iostream>
+#include <thread>
 
 using namespace std;
+
+void cycleLoop(int cycles) {
+	cout << "inside " << cycles << endl;
+	while (cycles > 0)
+		cycles--;
+}
 
 int main() {
 
@@ -35,7 +42,26 @@ int main() {
 	vector<program> processes = pm.getProcesses();
 
 	scheduler::instance().initializeReadyQueue(processes);
-	scheduler::instance().process();
+
+	thread t1;
+
+	bool firstTime = true;
+	while (scheduler::instance().getReadyQSize() > 0) {
+
+		scheduler::instance().process();
+
+		if (scheduler::instance().getWaitQSize() > 0 && firstTime) {
+
+			t1 = thread(cycleLoop, scheduler::instance().getFirstInWaitQ().second);
+
+			firstTime = false;
+
+		}
+
+	}
+
+	t1.join();
+	cout << "done" << endl;
 
 	return 0;
 

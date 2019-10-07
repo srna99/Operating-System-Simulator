@@ -101,11 +101,11 @@ void programManager::readFile(ifstream *inFile, program process) {
 		process.getPcb()->setPc(++linePC);
 
 		if (line.find("CALCULATE") != -1) {
-			op.calculate(process, generateRandomNumber());
+			op.calculate(generateRandomNumber());
 		} else if (line.find("I/O") != -1) {
-			op.wait(process, generateRandomNumber());
+			op.wait(generateRandomNumber());
 		} else if (line.find("YIELD") != -1) {
-			op.yield(process);
+			op.yield();
 		} else if (line.find("OUT") != -1) {
 			op.out(process);
 		} else if (line.find("EXE") != -1) {

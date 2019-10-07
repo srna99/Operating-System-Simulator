@@ -16,9 +16,9 @@ class operation {
 		operation();
 		virtual ~operation();
 
-		void calculate(program process, int cycles);
-		void wait(program process, int cycles);
-		void yield(program process);
+		void calculate(int cycles);
+		void wait(int cycles);
+		void yield();
 		void out(program process);
 		void exit();
 
