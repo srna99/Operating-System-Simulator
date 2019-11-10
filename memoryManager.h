@@ -7,8 +7,6 @@
 #ifndef MEMORYMANAGER_H_
 #define MEMORYMANAGER_H_
 
-#include "program.h"
-
 class memoryManager {
 
 	public:
@@ -16,8 +14,8 @@ class memoryManager {
 		memoryManager();
 		virtual ~memoryManager();
 
-		bool allocateMemory(program process);
-		void deallocateMemory();
+		bool allocateMemory(int memorySize);
+		void deallocateMemory(int memorySize);
 
 	private:
 

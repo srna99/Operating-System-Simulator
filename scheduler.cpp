@@ -13,15 +13,9 @@ using namespace std;
 scheduler::scheduler() {}
 scheduler::~scheduler() {}
 
-void scheduler::initializeReadyQueue(vector<program> &processes) {
-
-	for(int i = 0; i < processes.size(); i++) {
-
-		dp.updateState(Ready, processes[i].getPcb());
-		readyQ.push(processes[i]);
-
-	}
-
+void scheduler::addToReadyQ(program program) {
+	dp.updateState(Ready, program.getPcb());
+	readyQ.push(program);
 }
 
 program * scheduler::getFirstInReadyQ() { return &readyQ.front(); }

@@ -13,16 +13,16 @@ int memoryManager::memoryAvailable = CPU_MEMORY;
 memoryManager::memoryManager() {}
 memoryManager::~memoryManager() {}
 
-bool memoryManager::allocateMemory(program process) {
+bool memoryManager::allocateMemory(int memorySize) {
 
-	if (process.getPcb()->getMemory() <= memoryAvailable) {
-		memoryAvailable -= process.getPcb()->getMemory();
+	if (memorySize <= memoryAvailable) {
+		memoryAvailable -= memorySize;
 		return true;
 	}
 
 	return false;
 }
 
-void memoryManager::deallocateMemory() {
-
+void memoryManager::deallocateMemory(int memorySize) {
+	memoryAvailable += memorySize;
 }

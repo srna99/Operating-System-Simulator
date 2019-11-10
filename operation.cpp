@@ -45,13 +45,13 @@ void operation::out(program &process) {
 
 //	cout << "o" << endl;
 
+	cout << endl;
 	cout << "Name: " << process.getName() << endl;
 	cout << "Process ID: " << process.getPcb()->getProcessId() << endl;
 	cout << "State: " << process.getPcb()->getState() << endl;
 	cout << "Runtime: " << process.getPcb()->getRuntime() << endl;
 	cout << "Memory: " << process.getPcb()->getMemory() << endl;
 	cout << "PC: " << process.getPcb()->getPc() << endl;
-	cout << endl;
 
 }
 

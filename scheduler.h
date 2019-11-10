@@ -10,6 +10,7 @@
 #include "programManager.h"
 #include "program.h"
 #include "dispatcher.h"
+#include "memoryManager.h"
 #include <queue>
 
 class scheduler {
@@ -19,7 +20,7 @@ class scheduler {
 		static scheduler& instance() { static scheduler sch; return sch; };
 		virtual ~scheduler();
 
-		void initializeReadyQueue(std::vector<program> &processes);
+		void addToReadyQ(program program);
 		program * getFirstInReadyQ();
 		void yieldInReadyQ();
 		void removeFromReadyQ();

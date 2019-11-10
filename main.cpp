@@ -13,6 +13,7 @@ using namespace std;
 int main() {
 
 	programManager pm;
+	memoryManager mm;
 
 	int num;
 
@@ -33,11 +34,32 @@ int main() {
 	pm.createProgram(4, num);
 
 	vector<program> processes = pm.getProcesses();
+	int size = processes.size();
 
-	scheduler::instance().initializeReadyQueue(processes);
+	while (processes.size() > 0) {
 
-	while (scheduler::instance().getReadyQSize() > 0) {
-		pm.openProgram(scheduler::instance().getFirstInReadyQ());
+		vector<program>::iterator it;
+		int counter = 0;
+		for(it = processes.begin(); it != processes.end(); it++, counter++) {
+
+			if (counter < size) {
+
+				if(mm.allocateMemory(it->getPcb()->getMemory())) {
+					scheduler::instance().addToReadyQ(*it);
+					processes.erase(processes.begin());
+				} else {
+					processes.push_back(*it);
+					processes.erase(processes.begin());
+				}
+
+			} else break;
+
+		}
+
+		while (scheduler::instance().getReadyQSize() > 0) {
+			pm.openProgram(scheduler::instance().getFirstInReadyQ());
+		}
+
 	}
 
 	return 0;
