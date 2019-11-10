@@ -50,7 +50,7 @@ void operation::cycleLoop(int cycles, bool isCalc) {
 
 	while (cycles > 0) {
 
-		if (!interruptSignal && isCalc) {
+		if (interruptSignal && isCalc) {
 			setLeftOverCycles(cycles);
 			break;
 		} else if (isCalc) {

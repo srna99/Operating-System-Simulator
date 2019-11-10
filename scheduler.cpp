@@ -30,6 +30,7 @@ void scheduler::yieldInReadyQ() {
 void scheduler::removeFromReadyQ() {
 	dp.updateState(Exit, readyQ.front().getPcb());
 	readyQ.pop();
+	interruptSignal = true;
 }
 
 int scheduler::getReadyQSize() { return readyQ.size(); }

@@ -100,10 +100,7 @@ void processManager::readFile(ifstream *inFile, process &process) {
 	string line;
 	while (getline(*inFile, line)) {
 
-		if (!interruptSignal) {
-			interruptSignal = false;
-			break;
-		}
+		if (interruptSignal) { break; }
 
 		process.getPcb()->setPc(++linePC);
 
@@ -131,6 +128,7 @@ void processManager::readFile(ifstream *inFile, process &process) {
 
 			if (cyclesLeft > 0) {
 				process.getPcb()->setCyclesLeft(cyclesLeft);
+				op.yield();
 			}
 
 		} else if (line.find("I/O") != -1) {

@@ -39,8 +39,9 @@ int main() {
 	pm.createProcess(4, num);
 
 	vector<process> processes = pm.getProcesses();
+	int counter = processes.size();
 
-	while (processes.size() > 0) {
+	while (counter > 0) {
 
 		vector<process>::iterator it;
 
@@ -56,21 +57,24 @@ int main() {
 			}
 
 		}
+//		cout << "rq " << scheduler::instance().getReadyQSize() << endl;
+//		cout << "wq " << scheduler::instance().getWaitQSize() << endl;
+		if (scheduler::instance().getReadyQSize() > 0 || scheduler::instance().getWaitQSize() > 0) {
 
-		if (scheduler::instance().getReadyQSize() > 0 && scheduler::instance().getWaitQSize() > 0) {
+			interruptSignal = false;
 
 			int currentCycle = 1;
-			while (currentCycle <= ROUND_ROBIN_CYCLES) {	//thread here?
+			while (currentCycle <= ROUND_ROBIN_CYCLES && !interruptSignal) {	//thread here?
 
 				if (scheduler::instance().getFirstInReadyQ()->getPcb()->getState() == 4) { break; }
 
 				pm.openProcess(scheduler::instance().getFirstInReadyQ());
 
 				currentCycle++;
-
+				//cout << currentCycle << endl;
 			}
 
-			interruptSignal = true;
+			if (!interruptSignal) { interruptSignal = true; }
 
 		}
 
