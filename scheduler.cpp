@@ -13,12 +13,12 @@ using namespace std;
 scheduler::scheduler() {}
 scheduler::~scheduler() {}
 
-void scheduler::addToReadyQ(program program) {
-	dp.updateState(Ready, program.getPcb());
-	readyQ.push(program);
+void scheduler::addToReadyQ(process process) {
+	dp.updateState(Ready, process.getPcb());
+	readyQ.push(process);
 }
 
-program * scheduler::getFirstInReadyQ() { return &readyQ.front(); }
+process * scheduler::getFirstInReadyQ() { return &readyQ.front(); }
 
 void scheduler::yieldInReadyQ() {
 	dp.updateState(Ready, readyQ.front().getPcb());
@@ -44,3 +44,5 @@ void scheduler::removeFromWaitQ() {
 	readyQ.push(waitQ.front());
 	waitQ.pop();
 }
+
+int scheduler::getWaitQSize() { return waitQ.size(); }

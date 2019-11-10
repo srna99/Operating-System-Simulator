@@ -7,7 +7,7 @@
 #ifndef OPERATION_H_
 #define OPERATION_H_
 
-#include "program.h"
+#include "process.h"
 
 class operation {
 
@@ -19,7 +19,7 @@ class operation {
 		void calculate(int cycles);
 		void wait(int cycles);
 		void yield();
-		void out(program &process);
+		void out(process &process);
 		void exit();
 		void cycleLoop(int cycles, bool isCalc);
 

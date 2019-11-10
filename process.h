@@ -4,18 +4,18 @@
  * Author: Serena Cheng
  */
 
-#ifndef PROGRAM_H_
-#define PROGRAM_H_
+#ifndef PROCESS_H_
+#define PROCESS_H_
 
 #include "pcb.h"
 #include <string>
 
-class program {
+class process {
 
 	public:
 
-		program(std::string name, std::string path);
-		virtual ~program();
+		process(std::string name, std::string path);
+		virtual ~process();
 
 		pcb * getPcb();
 		std::string getName();
@@ -33,4 +33,4 @@ class program {
 
 };
 
-#endif /* PROGRAM_H_ */
+#endif /* PROCESS_H_ */

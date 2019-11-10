@@ -1,10 +1,10 @@
 /*
- * programManager.cpp
+ * processManager.cpp
  *
  * Author: Serena Cheng
  */
 
-#include "programManager.h"
+#include "processManager.h"
 #include <fstream>
 #include <iostream>
 #include <random>
@@ -12,21 +12,21 @@
 using namespace std;
 
 
-programManager::programManager() {}
-programManager::~programManager() {}
+processManager::processManager() {}
+processManager::~processManager() {}
 
-vector<program> programManager::getProcesses() {
+vector<process> processManager::getProcesses() {
 	processes.shrink_to_fit();
 	return processes;
 }
 
-void programManager::createProgram(int programNumber, int numberToMake) {
+void processManager::createProcess(int processNumber, int numberToMake) {
 
-	pair<string, string> data = chooseFile(programNumber);
+	pair<string, string> data = chooseFile(processNumber);
 
 	for(int i = 0; i < numberToMake; i++) {
 
-		program process(data.first, data.second);
+		process process(data.first, data.second);
 		dp.updateState(New, process.getPcb());
 
 		processes.push_back(process);
@@ -35,7 +35,7 @@ void programManager::createProgram(int programNumber, int numberToMake) {
 
 }
 
-pair<string, string> programManager::chooseFile(int number) {
+pair<string, string> processManager::chooseFile(int number) {
 
 	string filePath = "template files/program_file";
 
@@ -58,7 +58,7 @@ pair<string, string> programManager::chooseFile(int number) {
 
 }
 
-void programManager::openProgram(program *process) {
+void processManager::openProcess(process *process) {
 
 	ifstream inFile;
 
@@ -77,7 +77,7 @@ void programManager::openProgram(program *process) {
 
 }
 
-ifstream * programManager::goToLine(ifstream *inFile, int lineNumber, program &process) {
+ifstream * processManager::goToLine(ifstream *inFile, int lineNumber, process &process) {
 
 	inFile->seekg(ios::beg);
 
@@ -89,7 +89,7 @@ ifstream * programManager::goToLine(ifstream *inFile, int lineNumber, program &p
 
 }
 
-void programManager::readFile(ifstream *inFile, program &process) {
+void processManager::readFile(ifstream *inFile, process &process) {
 
 	int linePC = process.getPcb()->getPc();
 
@@ -127,7 +127,7 @@ void programManager::readFile(ifstream *inFile, program &process) {
 
 }
 
-int programManager::generateRandomNumber() {
+int processManager::generateRandomNumber() {
 
 	random_device rd;
 	mt19937 gen(rd());

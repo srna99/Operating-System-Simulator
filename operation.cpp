@@ -41,7 +41,7 @@ void operation::yield() {
 
 }
 
-void operation::out(program &process) {
+void operation::out(process &process) {
 
 //	cout << "o" << endl;
 
