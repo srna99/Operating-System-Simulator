@@ -23,6 +23,8 @@ class pcb {
 		int getRuntime();
 		void setRuntime(int time);
 		void incrementRuntime();
+		int getCyclesLeft();
+		void setCyclesLeft(int cycles);
 		int getMemory();
 		void setMemory(int memorySize);
 		int getPc();
@@ -33,6 +35,7 @@ class pcb {
 		int processId;
 		State state;
 		int runtime;
+		int cyclesLeft;
 		int memory;
 		int pc;
 

@@ -11,10 +11,14 @@
 
 using namespace std;
 
+
 int main() {
 
 	processManager pm;
 	memoryManager mm;
+
+	const int ROUND_ROBIN_CYCLES = 50;
+	interruptSignal = false;
 
 	int num;
 
@@ -55,14 +59,23 @@ int main() {
 
 		if (scheduler::instance().getReadyQSize() > 0 && scheduler::instance().getWaitQSize() > 0) {
 
-			while (true) {
+			int currentCycle = 1;
+			while (currentCycle <= ROUND_ROBIN_CYCLES) {	//thread here?
+
+				if (scheduler::instance().getFirstInReadyQ()->getPcb()->getState() == 4) { break; }
+
+				pm.openProcess(scheduler::instance().getFirstInReadyQ());
+
+				currentCycle++;
 
 			}
+
+			interruptSignal = true;
 
 		}
 
 //		while (scheduler::instance().getReadyQSize() > 0) {
-//			pm.openProgram(scheduler::instance().getFirstInReadyQ());
+//			pm.openProcess(scheduler::instance().getFirstInReadyQ());
 //		}
 
 	}

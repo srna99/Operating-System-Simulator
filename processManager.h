@@ -12,6 +12,8 @@
 #include "operation.h"
 #include <vector>
 
+extern bool interruptSignal;
+
 class processManager {
 
 	public:

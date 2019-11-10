@@ -4,6 +4,7 @@
  * Author: Serena Cheng
  */
 
+#include "processManager.h"
 #include "operation.h"
 #include "scheduler.h"
 #include <iostream>
@@ -11,39 +12,25 @@
 using namespace std;
 
 
-operation::operation() {}
+operation::operation() { leftOverCycles = 0; }
 operation::~operation() {}
 
-void operation::calculate(int cycles) {
-
-//	cout << "c" << endl;
-//	cout << "run " << scheduler::instance().getFirstInReadyQ()->getPcb()->getRuntime() << endl;
+int operation::calculate(int cycles) {
 	cycleLoop(cycles, true);
-
-
+	if (getLeftOverCycles() > 0) { return getLeftOverCycles(); } else { return 0; }
 }
 
 void operation::wait(int cycles) {
-
-//	cout << "w" << endl;
-
 	scheduler::instance().addToWaitQ();
 	cycleLoop(cycles, false);
 	scheduler::instance().removeFromWaitQ();
-
 }
 
 void operation::yield() {
-
-//	cout << "y" << endl;
-
 	scheduler::instance().yieldInReadyQ();
-
 }
 
 void operation::out(process &process) {
-
-//	cout << "o" << endl;
 
 	cout << endl;
 	cout << "Name: " << process.getName() << endl;
@@ -63,12 +50,18 @@ void operation::cycleLoop(int cycles, bool isCalc) {
 
 	while (cycles > 0) {
 
-		cycles--;
-
-		if (isCalc) {
+		if (!interruptSignal && isCalc) {
+			setLeftOverCycles(cycles);
+			break;
+		} else if (isCalc) {
 			scheduler::instance().getFirstInReadyQ()->getPcb()->incrementRuntime();
 		}
 
+		cycles--;
+
 	}
-//	cout << "inside " << scheduler::instance().getFirstInReadyQ()->getPcb()->getRuntime() << endl;
+
 }
+
+int operation::getLeftOverCycles() { return leftOverCycles; }
+void operation::setLeftOverCycles(int cycles) { leftOverCycles = cycles; }

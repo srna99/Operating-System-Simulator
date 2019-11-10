@@ -16,12 +16,18 @@ class operation {
 		operation();
 		virtual ~operation();
 
-		void calculate(int cycles);
+		int calculate(int cycles);
 		void wait(int cycles);
 		void yield();
 		void out(process &process);
 		void exit();
 		void cycleLoop(int cycles, bool isCalc);
+		int getLeftOverCycles();
+		void setLeftOverCycles(int cycles);
+
+	private:
+
+		int leftOverCycles;
 
 };
 

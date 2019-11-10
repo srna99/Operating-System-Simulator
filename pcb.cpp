@@ -9,6 +9,7 @@
 
 pcb::pcb() {
 	setRuntime(0);
+	setCyclesLeft(0);
 	setPc(1);
 }
 pcb::~pcb() {}
@@ -22,6 +23,9 @@ void pcb::setState(State currentState) { state = currentState; }
 int pcb::getRuntime() { return runtime; }
 void pcb::setRuntime(int time) { runtime = time; }
 void pcb::incrementRuntime() { runtime++; }
+
+int pcb::getCyclesLeft() { return cyclesLeft; }
+void pcb::setCyclesLeft(int cycles) { cyclesLeft = cycles; }
 
 int pcb::getMemory() { return memory; }
 void pcb::setMemory(int memorySize) { memory = memorySize; }

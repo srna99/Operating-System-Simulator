@@ -12,6 +12,8 @@
 using namespace std;
 
 
+bool interruptSignal = false;
+
 processManager::processManager() {}
 processManager::~processManager() {}
 
@@ -58,7 +60,7 @@ pair<string, string> processManager::chooseFile(int number) {
 
 }
 
-void processManager::openProcess(process *process) {
+void processManager::openProcess(process *process) {	//thread here?
 
 	ifstream inFile;
 
@@ -98,6 +100,11 @@ void processManager::readFile(ifstream *inFile, process &process) {
 	string line;
 	while (getline(*inFile, line)) {
 
+		if (!interruptSignal) {
+			interruptSignal = false;
+			break;
+		}
+
 		process.getPcb()->setPc(++linePC);
 
 		if (process.getPcb()->getMemory() == 0) {
@@ -111,10 +118,23 @@ void processManager::readFile(ifstream *inFile, process &process) {
 		}
 
 		if (line.find("CALCULATE") != -1) {
+
 			dp.updateState(Run, process.getPcb());
-			op.calculate(generateRandomNumber());
+
+			int cyclesLeft;
+
+			if (process.getPcb()->getCyclesLeft() == 0) {
+				cyclesLeft = op.calculate(generateRandomNumber());
+			} else {
+				cyclesLeft = op.calculate(process.getPcb()->getCyclesLeft());
+			}
+
+			if (cyclesLeft > 0) {
+				process.getPcb()->setCyclesLeft(cyclesLeft);
+			}
+
 		} else if (line.find("I/O") != -1) {
-			op.wait(generateRandomNumber());
+			op.wait(generateRandomNumber());	//thread somewhere on wait?
 		} else if (line.find("YIELD") != -1) {
 			op.yield();
 		} else if (line.find("OUT") != -1) {

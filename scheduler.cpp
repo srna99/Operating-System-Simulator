@@ -4,8 +4,8 @@
  * Author: Serena Cheng
  */
 
+#include "processManager.h"
 #include "scheduler.h"
-#include <iostream>
 
 using namespace std;
 
@@ -24,6 +24,7 @@ void scheduler::yieldInReadyQ() {
 	dp.updateState(Ready, readyQ.front().getPcb());
 	readyQ.push(readyQ.front());
 	readyQ.pop();
+	interruptSignal = true;
 }
 
 void scheduler::removeFromReadyQ() {
