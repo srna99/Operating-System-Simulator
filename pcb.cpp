@@ -1,7 +1,7 @@
 /*
  * pcb.cpp
  *
- *      Author: Serena Cheng
+ * Author: Serena Cheng
  */
 
 #include "pcb.h"
@@ -22,6 +22,9 @@ void pcb::setState(State currentState) { state = currentState; }
 int pcb::getRuntime() { return runtime; }
 void pcb::setRuntime(int time) { runtime = time; }
 void pcb::incrementRuntime() { runtime++; }
+
+int pcb::getMemory() { return memory; }
+void pcb::setMemory(int memorySize) { memory = memorySize; }
 
 int pcb::getPc() { return pc; }
 void pcb::setPc(int line) { pc = line; }

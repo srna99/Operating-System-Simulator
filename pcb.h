@@ -1,7 +1,7 @@
 /*
  * pcb.h
  *
- *      Author: Serena Cheng
+ * Author: Serena Cheng
  */
 
 #ifndef PCB_H_
@@ -23,6 +23,8 @@ class pcb {
 		int getRuntime();
 		void setRuntime(int time);
 		void incrementRuntime();
+		int getMemory();
+		void setMemory(int memorySize);
 		int getPc();
 		void setPc(int line);
 
@@ -31,6 +33,7 @@ class pcb {
 		int processId;
 		State state;
 		int runtime;
+		int memory;
 		int pc;
 
 };

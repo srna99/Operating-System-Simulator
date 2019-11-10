@@ -1,7 +1,7 @@
 /*
  * dispatcher.h
  *
- *      Author: Serena Cheng
+ * Author: Serena Cheng
  */
 
 #ifndef DISPATCHER_H_

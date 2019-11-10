@@ -1,7 +1,7 @@
 /*
  * programManager.h
  *
- *      Author: Serena Cheng
+ * Author: Serena Cheng
  */
 
 #ifndef PROGRAMMANAGER_H_

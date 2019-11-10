@@ -1,7 +1,7 @@
 /*
  * programManager.cpp
  *
- *      Author: Serena Cheng
+ * Author: Serena Cheng
  */
 
 #include "programManager.h"
@@ -99,6 +99,16 @@ void programManager::readFile(ifstream *inFile, program &process) {
 	while (getline(*inFile, line)) {
 
 		process.getPcb()->setPc(++linePC);
+
+		if (process.getPcb()->getMemory() == 0) {
+
+			if (line.find("Memory") != -1) {
+				string size = line.substr(line.find(" ")+1, line.length());
+				int memSize = atoi(size.c_str());
+				process.getPcb()->setMemory(memSize);
+			}
+
+		}
 
 		if (line.find("CALCULATE") != -1) {
 			dp.updateState(Run, process.getPcb());

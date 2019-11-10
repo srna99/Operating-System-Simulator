@@ -1,19 +1,20 @@
 /*
  * program.cpp
  *
- *      Author: Serena Cheng
+ * Author: Serena Cheng
  */
 
 #include "program.h"
 
 using namespace std;
 
-//extern int idCounter = 1;
+
+int program::idCounter = 0;
 
 program::program(string name, string path) {
 
-	currentPcb.setProcessId(rand());
 	incrementIdCounter();
+	currentPcb.setMemory(0);
 
 	setName(name);
 	setFilePath(path);
@@ -33,4 +34,7 @@ void program::setFilePath(string path) {
 	filePath = path;
 }
 
-void program::incrementIdCounter() {} //idCounter++; }
+void program::incrementIdCounter() {
+	idCounter++;
+	currentPcb.setProcessId(idCounter);
+}

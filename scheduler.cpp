@@ -1,7 +1,7 @@
 /*
  * scheduler.cpp
  *
- *      Author: Serena Cheng
+ * Author: Serena Cheng
  */
 
 #include "scheduler.h"

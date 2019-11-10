@@ -1,7 +1,7 @@
 /*
  * main.cpp
  *
- *      Author: Serena Cheng
+ * Author: Serena Cheng
  */
 
 #include "programManager.h"

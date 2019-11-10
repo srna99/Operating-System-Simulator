@@ -1,7 +1,7 @@
 /*
  * program.h
  *
- *      Author: Serena Cheng
+ * Author: Serena Cheng
  */
 
 #ifndef PROGRAM_H_
@@ -28,6 +28,7 @@ class program {
 		pcb currentPcb;
 		std::string filePath;
 		std::string name;
+		static int idCounter;
 		void incrementIdCounter();
 
 };

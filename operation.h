@@ -1,7 +1,7 @@
 /*
  * operation.h
  *
- *      Author: Serena Cheng
+ * Author: Serena Cheng
  */
 
 #ifndef OPERATION_H_

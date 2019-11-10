@@ -1,7 +1,7 @@
 /*
  * dispatcher.cpp
  *
- *      Author: Serena Cheng
+ * Author: Serena Cheng
  */
 
 #include "dispatcher.h"
