@@ -2,7 +2,9 @@ Name: Music Player
 Total Runtime: 250
 Memory: 75
 
+<CRITICAL_SECTION>
 CALCULATE 40
+</CRITICAL_SECTION>
 I/O 50
 CALCULATE 70
 I/O 65
