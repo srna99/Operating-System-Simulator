@@ -139,6 +139,8 @@ void processManager::readFile(ifstream *inFile, process &process) {
 			op.out(process);
 		} else if (line.find("EXE") != -1) {
 			op.exit();
+		} else if (line.find("<CRITICAL_SECTION>")) {
+
 		}
 
 	}
@@ -151,7 +153,7 @@ int processManager::generateRandomNumber() {
 	mt19937 gen(rd());
 	uniform_int_distribution<> range(50, 100);
 	int x = range(gen);
-//	cout << "rand " << x << endl;
+
 	return x;
 
 }
