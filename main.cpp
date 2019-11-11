@@ -11,7 +11,7 @@
 
 using namespace std;
 
-//THREADS; SHOULD CRIT SEC GO HERE?; ADD REST OF PROCESSES TO WAIT; CHECK IF IN WAIT CYCLE; END INFINITE LOOP
+//THREADS; CHECK IF IN WAIT CYCLE
 int main() {
 
 	processManager pm;
@@ -39,10 +39,8 @@ int main() {
 	pm.createProcess(4, num);
 
 	vector<process> processes = pm.getProcesses();
-//	int counter = processes.size();
 
 	vector<process>::iterator it;
-
 	for(it = processes.begin(); it != processes.end(); it++) {
 
 		if(!scheduler::instance().addToReadyQ(*it, false)) {
@@ -51,51 +49,30 @@ int main() {
 
 	}
 
-//	while (counter > 0) {
-
-//		vector<process>::iterator it;
-//
-//		for(it = processes.begin(); it != processes.end(); it++) {
-//
-//			if(mm.allocateMemory(it->getPcb()->getMemory())) {
-//				scheduler::instance().addToReadyQ(*it);
-//			} else {
-//				scheduler::instance().addToWaitQ(*it);
-////				processes.push_back(*it);
-////				processes.erase(processes.begin());
-//			}
-//
-//		}
-//		cout << "rq " << scheduler::instance().getReadyQSize() << endl;
-//		cout << "wq " << scheduler::instance().getWaitQSize() << endl;
-
+	int counter, size;
 	while (scheduler::instance().getReadyQSize() > 0 || scheduler::instance().getWaitQSize() > 0) {
 
 		interruptSignal = false;
 
 		int currentCycle = 1;
 		while (currentCycle <= ROUND_ROBIN_CYCLES && !interruptSignal) {	//thread here?
-
-			if (scheduler::instance().getFirstInReadyQ()->getPcb()->getState() == 4) {
-//					counter--;
-				break;
-			}
-
 			pm.openProcess(scheduler::instance().getFirstInReadyQ());
-
 			currentCycle++;
-			//cout << currentCycle << endl;
 		}
 
 		if (!interruptSignal) { interruptSignal = true; }
 
+		counter = 0;
+		size = scheduler::instance().getWaitQSize();
+		while (counter < size) {
+			if(!scheduler::instance().addToReadyQ(*scheduler::instance().getFirstInWaitQ(), false)) {
+				scheduler::instance().yieldInWaitQ();
+			}
+
+			counter++;
+		}
+
 	}
-
-//		while (scheduler::instance().getReadyQSize() > 0) {
-//			pm.openProcess(scheduler::instance().getFirstInReadyQ());
-//		}
-
-//	}
 
 	return 0;
 

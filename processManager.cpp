@@ -11,7 +11,7 @@
 
 using namespace std;
 
-//SHOULD CRIT SEC GO HERE OR MAKE A NEW CLASS?; THREADS; HOW TO CARRY OUT CRIT SEC AND IGNORE SIGNALS?
+//THREADS
 bool interruptSignal = false;
 
 processManager::processManager() { signalActive = true; }

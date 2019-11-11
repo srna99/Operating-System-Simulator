@@ -26,6 +26,7 @@ class scheduler {
 		int getReadyQSize();
 		void addToWaitQ(process process, bool inReadyQ);
 		process * getFirstInWaitQ();
+		void yieldInWaitQ();
 		int getWaitQSize();
 
 	private:

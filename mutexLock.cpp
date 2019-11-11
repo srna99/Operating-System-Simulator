@@ -6,7 +6,7 @@
 
 #include "mutexLock.h"
 
-//USE THIS SOMEWHERE
+
 mutexLock::mutexLock() { isAvailable = true; }
 mutexLock::~mutexLock() {}
 

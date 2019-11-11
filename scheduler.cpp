@@ -6,10 +6,11 @@
 
 #include "processManager.h"
 #include "scheduler.h"
+#include <iostream>
 
 using namespace std;
 
-//CONNECT MEMORY TO THIS?; WORK ON WAIT (CYCLES, WHERE TO ADD, DONT ADD TOO EARLY, ETC.)
+//WORK ON WAIT (CYCLES, WHERE TO ADD, DONT ADD TOO EARLY, ETC.)
 scheduler::scheduler() {}
 scheduler::~scheduler() {}
 
@@ -55,5 +56,11 @@ void scheduler::addToWaitQ(process process, bool inReadyQ) {
 }
 
 process * scheduler::getFirstInWaitQ() { return &waitQ.front(); }
+
+void scheduler::yieldInWaitQ() {
+	dp.updateState(Wait, waitQ.front().getPcb());
+	waitQ.push(waitQ.front());
+	waitQ.pop();
+}
 
 int scheduler::getWaitQSize() { return waitQ.size(); }
