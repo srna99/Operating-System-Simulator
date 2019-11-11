@@ -23,7 +23,7 @@ int operation::calculate(int cycles) {
 void operation::wait(int cycles) {
 	scheduler::instance().addToWaitQ(*scheduler::instance().getFirstInReadyQ(), true);
 	cycleLoop(cycles, false);
-	scheduler::instance().addToReadyQ(*scheduler::instance().getFirstInWaitQ(), true);
+//	scheduler::instance().addToReadyQ(*scheduler::instance().getFirstInWaitQ(), true);
 }
 
 void operation::yield() {

@@ -9,6 +9,7 @@
 #include <iostream>
 #include <random>
 
+
 using namespace std;
 
 //THREADS
@@ -60,11 +61,16 @@ pair<string, string> processManager::chooseFile(int number) {
 
 }
 
-void processManager::openProcess(process *process) {	//thread here?
+//void processManager::start(process process) {
+//	pthread_create(&thread, NULL, (void *) openProcess, (void *) process);
+//}
+
+//void *processManager::openProcess(void *proc) {	//thread here?
+void processManager::openProcess(process *p) {
 
 	ifstream inFile;
-
-	inFile.open(process->getFilePath());
+	//process p = (process) proc;
+	inFile.open(p->getFilePath());
 
 	if (!inFile) {
 
@@ -72,7 +78,7 @@ void processManager::openProcess(process *process) {	//thread here?
 		exit(1);
 
 	} else {
-		readFile(&inFile, *process);
+		readFile(&inFile, *p);
 	}
 
 	inFile.close();

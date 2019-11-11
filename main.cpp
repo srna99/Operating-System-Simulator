@@ -8,6 +8,7 @@
 #include "scheduler.h"
 #include "memoryManager.h"
 #include <iostream>
+#include <pthread.h>
 
 using namespace std;
 
@@ -49,10 +50,16 @@ int main() {
 
 	}
 
+//	pthread_t thread;
 	int counter, size;
+
 	while (scheduler::instance().getReadyQSize() > 0 || scheduler::instance().getWaitQSize() > 0) {
 
 		interruptSignal = false;
+
+		//pm.start(scheduler::instance().getFirstInReadyQ());
+//		process p = *scheduler::instance().getFirstInReadyQ();
+//		pthread_create(&thread, NULL, (void *) pm.openProcess, (void *) p);
 
 		int currentCycle = 1;
 		while (currentCycle <= ROUND_ROBIN_CYCLES && !interruptSignal) {	//thread here?
@@ -65,7 +72,7 @@ int main() {
 		counter = 0;
 		size = scheduler::instance().getWaitQSize();
 		while (counter < size) {
-			if(!scheduler::instance().addToReadyQ(*scheduler::instance().getFirstInWaitQ(), false)) {
+			if(!scheduler::instance().addToReadyQ(*scheduler::instance().getFirstInWaitQ(), true)) {
 				scheduler::instance().yieldInWaitQ();
 			}
 
@@ -73,7 +80,7 @@ int main() {
 		}
 
 	}
-
+	pthread_exit(NULL);
 	return 0;
 
 }
