@@ -9,6 +9,7 @@
 
 #include "process.h"
 #include "dispatcher.h"
+#include "memoryManager.h"
 #include <queue>
 
 class scheduler {
@@ -18,13 +19,13 @@ class scheduler {
 		static scheduler& instance() { static scheduler sch; return sch; };
 		virtual ~scheduler();
 
-		void addToReadyQ(process program);
+		bool addToReadyQ(process program, bool inWaitQ);
 		process * getFirstInReadyQ();
 		void yieldInReadyQ();
 		void removeFromReadyQ();
 		int getReadyQSize();
-		void addToWaitQ();
-		void removeFromWaitQ();
+		void addToWaitQ(process process, bool inReadyQ);
+		process * getFirstInWaitQ();
 		int getWaitQSize();
 
 	private:
@@ -33,6 +34,7 @@ class scheduler {
 		std::queue<process> readyQ;
 		std::queue<process> waitQ;
 		dispatcher dp;
+		memoryManager mm;
 
 };
 

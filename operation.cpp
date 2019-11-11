@@ -11,7 +11,7 @@
 
 using namespace std;
 
-
+//FIGURE OUT SOMETHING WITH CYCLES; WHAT TO DO WITH WAIT (THREAD?); CHECK MEMORY?
 operation::operation() { leftOverCycles = 0; }
 operation::~operation() {}
 
@@ -21,9 +21,9 @@ int operation::calculate(int cycles) {
 }
 
 void operation::wait(int cycles) {
-	scheduler::instance().addToWaitQ();
+	scheduler::instance().addToWaitQ(*scheduler::instance().getFirstInReadyQ(), true);
 	cycleLoop(cycles, false);
-	scheduler::instance().removeFromWaitQ();
+	scheduler::instance().addToReadyQ(*scheduler::instance().getFirstInWaitQ(), true);
 }
 
 void operation::yield() {

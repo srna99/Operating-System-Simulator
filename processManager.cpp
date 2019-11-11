@@ -11,10 +11,10 @@
 
 using namespace std;
 
-
+//SHOULD CRIT SEC GO HERE OR MAKE A NEW CLASS?; THREADS; HOW TO CARRY OUT CRIT SEC AND IGNORE SIGNALS?
 bool interruptSignal = false;
 
-processManager::processManager() {}
+processManager::processManager() { signalActive = true; }
 processManager::~processManager() {}
 
 vector<process> processManager::getProcesses() {
@@ -100,7 +100,7 @@ void processManager::readFile(ifstream *inFile, process &process) {
 	string line;
 	while (getline(*inFile, line)) {
 
-		if (interruptSignal) { break; }
+		if (interruptSignal && signalActive) { break; }
 
 		process.getPcb()->setPc(++linePC);
 
@@ -114,35 +114,54 @@ void processManager::readFile(ifstream *inFile, process &process) {
 
 		}
 
-		if (line.find("CALCULATE") != -1) {
+		execute(line, process);
 
-			dp.updateState(Run, process.getPcb());
+		if (line.find("<CRITICAL_SECTION>") != -1) {
 
-			int cyclesLeft;
-
-			if (process.getPcb()->getCyclesLeft() == 0) {
-				cyclesLeft = op.calculate(generateRandomNumber());
+			if (lock.acquire()) {
+				signalActive = false;
 			} else {
-				cyclesLeft = op.calculate(process.getPcb()->getCyclesLeft());
-			}
-
-			if (cyclesLeft > 0) {
-				process.getPcb()->setCyclesLeft(cyclesLeft);
+				process.getPcb()->decrementPc();
 				op.yield();
 			}
 
-		} else if (line.find("I/O") != -1) {
-			op.wait(generateRandomNumber());	//thread somewhere on wait?
-		} else if (line.find("YIELD") != -1) {
-			op.yield();
-		} else if (line.find("OUT") != -1) {
-			op.out(process);
-		} else if (line.find("EXE") != -1) {
-			op.exit();
-		} else if (line.find("<CRITICAL_SECTION>")) {
-
+		} else if (line.find("</CRITICAL_SECTION>") != -1) {
+			lock.release();
+			signalActive = true;
 		}
 
+	}
+
+}
+
+void processManager::execute(string line, process &process) {
+
+	if (line.find("CALCULATE") != -1) {
+
+		dp.updateState(Run, process.getPcb());
+
+		int cyclesLeft;
+
+		if (process.getPcb()->getCyclesLeft() == 0) {
+			cyclesLeft = op.calculate(generateRandomNumber());
+		} else {
+			cyclesLeft = op.calculate(process.getPcb()->getCyclesLeft());
+		}
+
+		if (cyclesLeft > 0) {
+			process.getPcb()->setCyclesLeft(cyclesLeft);
+			process.getPcb()->decrementPc();
+			op.yield();
+		}
+
+	} else if (line.find("I/O") != -1) {
+		op.wait(generateRandomNumber());	//thread somewhere on wait?
+	} else if (line.find("YIELD") != -1) {
+		op.yield();
+	} else if (line.find("OUT") != -1) {
+		op.out(process);
+	} else if (line.find("EXE") != -1) {
+		op.exit();
 	}
 
 }

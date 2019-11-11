@@ -11,7 +11,7 @@
 
 using namespace std;
 
-
+//THREADS; SHOULD CRIT SEC GO HERE?; ADD REST OF PROCESSES TO WAIT; CHECK IF IN WAIT CYCLE; END INFINITE LOOP
 int main() {
 
 	processManager pm;
@@ -39,50 +39,63 @@ int main() {
 	pm.createProcess(4, num);
 
 	vector<process> processes = pm.getProcesses();
-	int counter = processes.size();
+//	int counter = processes.size();
 
-	while (counter > 0) {
+	vector<process>::iterator it;
 
-		vector<process>::iterator it;
+	for(it = processes.begin(); it != processes.end(); it++) {
 
-		for(it = processes.begin(); it != processes.end(); it++) {
-
-			if(mm.allocateMemory(it->getPcb()->getMemory())) {
-				scheduler::instance().addToReadyQ(*it);
-				processes.erase(processes.begin());
-			} else {
-				break;
-//				processes.push_back(*it);
-//				processes.erase(processes.begin());
-			}
-
+		if(!scheduler::instance().addToReadyQ(*it, false)) {
+			scheduler::instance().addToWaitQ(*it, false);
 		}
+
+	}
+
+//	while (counter > 0) {
+
+//		vector<process>::iterator it;
+//
+//		for(it = processes.begin(); it != processes.end(); it++) {
+//
+//			if(mm.allocateMemory(it->getPcb()->getMemory())) {
+//				scheduler::instance().addToReadyQ(*it);
+//			} else {
+//				scheduler::instance().addToWaitQ(*it);
+////				processes.push_back(*it);
+////				processes.erase(processes.begin());
+//			}
+//
+//		}
 //		cout << "rq " << scheduler::instance().getReadyQSize() << endl;
 //		cout << "wq " << scheduler::instance().getWaitQSize() << endl;
-		if (scheduler::instance().getReadyQSize() > 0 || scheduler::instance().getWaitQSize() > 0) {
 
-			interruptSignal = false;
+	while (scheduler::instance().getReadyQSize() > 0 || scheduler::instance().getWaitQSize() > 0) {
 
-			int currentCycle = 1;
-			while (currentCycle <= ROUND_ROBIN_CYCLES && !interruptSignal) {	//thread here?
+		interruptSignal = false;
 
-				if (scheduler::instance().getFirstInReadyQ()->getPcb()->getState() == 4) { break; }
+		int currentCycle = 1;
+		while (currentCycle <= ROUND_ROBIN_CYCLES && !interruptSignal) {	//thread here?
 
-				pm.openProcess(scheduler::instance().getFirstInReadyQ());
-
-				currentCycle++;
-				//cout << currentCycle << endl;
+			if (scheduler::instance().getFirstInReadyQ()->getPcb()->getState() == 4) {
+//					counter--;
+				break;
 			}
 
-			if (!interruptSignal) { interruptSignal = true; }
+			pm.openProcess(scheduler::instance().getFirstInReadyQ());
 
+			currentCycle++;
+			//cout << currentCycle << endl;
 		}
+
+		if (!interruptSignal) { interruptSignal = true; }
+
+	}
 
 //		while (scheduler::instance().getReadyQSize() > 0) {
 //			pm.openProcess(scheduler::instance().getFirstInReadyQ());
 //		}
 
-	}
+//	}
 
 	return 0;
 

@@ -10,6 +10,7 @@
 #include "process.h"
 #include "dispatcher.h"
 #include "operation.h"
+#include "mutexLock.h"
 #include <vector>
 
 extern bool interruptSignal;
@@ -30,9 +31,12 @@ class processManager {
 		std::vector<process> processes;
 		dispatcher dp;
 		operation op;
+		mutexLock lock;
+		bool signalActive;
 		std::pair<std::string, std::string> chooseFile(int number);
 		std::ifstream * goToLine(std::ifstream *inFile, int lineNumber, process &process);
 		void readFile(std::ifstream *inFile, process &process);
+		void execute(std::string line, process &process);
 		int generateRandomNumber();
 
 };

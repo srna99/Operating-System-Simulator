@@ -29,6 +29,7 @@ class pcb {
 		void setMemory(int memorySize);
 		int getPc();
 		void setPc(int line);
+		void decrementPc();
 
 	private:
 

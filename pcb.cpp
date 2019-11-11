@@ -32,3 +32,4 @@ void pcb::setMemory(int memorySize) { memory = memorySize; }
 
 int pcb::getPc() { return pc; }
 void pcb::setPc(int line) { pc = line; }
+void pcb::decrementPc() { pc--; }
