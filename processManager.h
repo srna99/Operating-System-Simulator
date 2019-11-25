@@ -26,8 +26,8 @@ class processManager {
 		std::vector<process> getProcesses();
 		void createProcess(int programNumber, int numberToMake);
 		void openProcess(process *p);
-//		void start(process process);
-//		void *openProcess(void *process);
+		void start(process process);
+		void *openProcess(void *process);
 
 	private:
 
@@ -36,7 +36,7 @@ class processManager {
 		operation op;
 		mutexLock lock;
 		bool signalActive;
-		pthread_t thread;
+//		pthread_t thread;
 		std::pair<std::string, std::string> chooseFile(int number);
 		std::ifstream * goToLine(std::ifstream *inFile, int lineNumber, process &process);
 		void readFile(std::ifstream *inFile, process &process);

@@ -8,7 +8,7 @@
 #include "scheduler.h"
 #include "memoryManager.h"
 #include <iostream>
-#include <pthread.h>
+//#include <pthread.h>
 
 using namespace std;
 
@@ -80,7 +80,7 @@ int main() {
 		}
 
 	}
-	pthread_exit(NULL);
+//	pthread_exit(NULL);
 	return 0;
 
 }
