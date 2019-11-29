@@ -21,31 +21,52 @@ int main() {
 	const int ROUND_ROBIN_CYCLES = 50;
 	interruptSignal = false;
 
-	int num;
+	int num, sum = 0;
 
 	cout << "How many text processors do you want to run?" << endl;
 	cin >> num;
 	pm.createProcess(1, num);
+	sum += num;
 
 	cout << "How many web browsers do you want to run?" << endl;
 	cin >> num;
 	pm.createProcess(2, num);
+	sum += num;
 
 	cout << "How many photo editors do you want to run?" << endl;
 	cin >> num;
 	pm.createProcess(3, num);
+	sum += num;
 
 	cout << "How many music players do you want to run?" << endl;
 	cin >> num;
 	pm.createProcess(4, num);
+	sum += num;
+
+	vector<thread> threads;
 
 	vector<process> processes = pm.getProcesses();
 
-	vector<process>::iterator it;
-	for(it = processes.begin(); it != processes.end(); it++) {
+//	vector<process>::iterator it;
+//	for(it = processes.begin(); it != processes.end(); it++) {
+	for (process &p : processes) {
 
-		if(!scheduler::instance().addToReadyQ(*it, false)) {
-			scheduler::instance().addToWaitQ(*it, false);
+//		thread th(&processManager::open);
+//		th.join();
+
+//		if(!scheduler::instance().addToReadyQ(*it, false)) {
+//			scheduler::instance().addToWaitQ(*it, false);
+//		}
+//		process p = *it;
+		pm.setMemory(p);
+
+		thread th(&processManager::openProcess, &pm, ref(p));
+		threads.push_back(move(th));
+
+		if (mm.allocateMemory(p.getPcb()->getMemory())) {
+			scheduler::instance().addToReadyQ(move(th), false);
+		} else {
+			scheduler::instance().addToWaitQ(move(th), false);
 		}
 
 	}
@@ -79,7 +100,18 @@ int main() {
 		}
 
 	}
-//	pthread_exit(NULL);
+
+//	vector<thread>::iterator iter;
+//	for(iter = threads.begin(); iter != threads.end(); iter++) {
+	for (thread &th : threads) {
+		if (th.joinable()){
+			th.join();
+		}
+	}
+
+	threads.clear();
+	processes.clear();
+
 	return 0;
 
 }

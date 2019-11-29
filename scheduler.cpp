@@ -14,51 +14,58 @@ using namespace std;
 scheduler::scheduler() {}
 scheduler::~scheduler() {}
 
-bool scheduler::addToReadyQ(process process, bool inWaitQ) {
+void scheduler::addToReadyQ(thread th, bool inWaitQ) {
 
-	if (mm.allocateMemory(process.getPcb()->getMemory())) {
+//	dp.updateState(Ready, process.getPcb());
+	readyQ.push(th);
 
-		dp.updateState(Ready, process.getPcb());
-		readyQ.push(process);
+	if (inWaitQ) { waitQ.pop(); }
 
-		if (inWaitQ) { waitQ.pop(); }
 
-		return true;
-
-	}
-	return false;
+//	if (mm.allocateMemory(process.getPcb()->getMemory())) {
+//
+//		dp.updateState(Ready, process.getPcb());
+//		readyQ.push(process);
+//
+//		if (inWaitQ) { waitQ.pop(); }
+//
+//		return true;
+//
+//	}
+//	return false;
 
 }
 
-process * scheduler::getFirstInReadyQ() { return &readyQ.front(); }
+thread * scheduler::getFirstInReadyQ() { return readyQ.front(); }
 
 void scheduler::yieldInReadyQ() {
-	dp.updateState(Ready, readyQ.front().getPcb());
+//	dp.updateState(Ready, readyQ.front().getPcb());
 	readyQ.push(readyQ.front());
 	readyQ.pop();
 	interruptSignal = true;
 }
 
 void scheduler::removeFromReadyQ() {
-	dp.updateState(Exit, readyQ.front().getPcb());
-	mm.deallocateMemory(readyQ.front().getPcb()->getMemory());
+	getFirstInReadyQ().join();
+//	dp.updateState(Exit, readyQ.front().getPcb());
+//	mm.deallocateMemory(readyQ.front().getPcb()->getMemory());
 	readyQ.pop();
 	interruptSignal = true;
 }
 
 int scheduler::getReadyQSize() { return readyQ.size(); }
 
-void scheduler::addToWaitQ(process process, bool inReadyQ) {
-	dp.updateState(Wait, readyQ.front().getPcb());
-	waitQ.push(process);
+void scheduler::addToWaitQ(thread th, bool inReadyQ) {
+//	dp.updateState(Wait, readyQ.front().getPcb());
+	waitQ.push(th);
 
 	if (inReadyQ) { readyQ.pop(); }
 }
 
-process * scheduler::getFirstInWaitQ() { return &waitQ.front(); }
+thread scheduler::getFirstInWaitQ() { return waitQ.front(); }
 
 void scheduler::yieldInWaitQ() {
-	dp.updateState(Wait, waitQ.front().getPcb());
+//	dp.updateState(Wait, waitQ.front().getPcb());
 	waitQ.push(waitQ.front());
 	waitQ.pop();
 }

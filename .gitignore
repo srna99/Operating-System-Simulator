@@ -77,3 +77,4 @@ local.properties
 .loadpath
 .recommenders
 .cproject
+/Release/

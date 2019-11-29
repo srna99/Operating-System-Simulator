@@ -20,6 +20,10 @@ processManager::processManager() {
 }
 processManager::~processManager() {}
 
+//void processManager::print(process &p){
+//	cout << p.getPcb()->getMemory() << endl;
+//}
+
 vector<process> processManager::getProcesses() {
 	processes.shrink_to_fit();
 	return processes;
@@ -64,10 +68,10 @@ pair<string, string> processManager::chooseFile(int number) {
 
 }
 
-void processManager::openProcess(process *p) {
+void processManager::setMemory(process &process) {
 
 	ifstream inFile;
-	inFile.open(p->getFilePath());
+	inFile.open(process.getFilePath());
 
 	if (!inFile) {
 
@@ -75,7 +79,37 @@ void processManager::openProcess(process *p) {
 		exit(1);
 
 	} else {
-		readFile(&inFile, *p);
+
+		string line;
+		while (getline(inFile, line)) {
+
+			if (line.find("Memory") != -1) {
+				string size = line.substr(line.find(" ")+1, line.length());
+				int memSize = atoi(size.c_str());
+				process.getPcb()->setMemory(memSize);
+				break;
+			}
+
+		}
+
+	}
+
+	inFile.close();
+
+}
+
+void processManager::openProcess(process &process) {
+
+	ifstream inFile;
+	inFile.open(process.getFilePath());
+
+	if (!inFile) {
+
+		cout << "Unable to open file.";
+		exit(1);
+
+	} else {
+		readFile(&inFile, process);
 	}
 
 	inFile.close();
@@ -107,15 +141,15 @@ void processManager::readFile(ifstream *inFile, process &process) {
 
 		process.getPcb()->setPc(++linePC);
 
-		if (process.getPcb()->getMemory() == 0) {
-
-			if (line.find("Memory") != -1) {
-				string size = line.substr(line.find(" ")+1, line.length());
-				int memSize = atoi(size.c_str());
-				process.getPcb()->setMemory(memSize);
-			}
-
-		}
+//		if (process.getPcb()->getMemory() == 0) {
+//
+//			if (line.find("Memory") != -1) {
+//				string size = line.substr(line.find(" ")+1, line.length());
+//				int memSize = atoi(size.c_str());
+//				process.getPcb()->setMemory(memSize);
+//			}
+//
+//		}
 
 		execute(line, process);
 

@@ -10,6 +10,7 @@
 #include "process.h"
 #include "dispatcher.h"
 #include "memoryManager.h"
+#include <thread>
 #include <queue>
 
 class scheduler {
@@ -19,21 +20,21 @@ class scheduler {
 		static scheduler& instance() { static scheduler sch; return sch; };
 		virtual ~scheduler();
 
-		bool addToReadyQ(process program, bool inWaitQ);
-		process * getFirstInReadyQ();
+		void addToReadyQ(std::thread th, bool inWaitQ);
+		std::thread getFirstInReadyQ();
 		void yieldInReadyQ();
 		void removeFromReadyQ();
 		int getReadyQSize();
-		void addToWaitQ(process process, bool inReadyQ);
-		process * getFirstInWaitQ();
+		void addToWaitQ(std::thread th, bool inReadyQ);
+		std::thread getFirstInWaitQ();
 		void yieldInWaitQ();
 		int getWaitQSize();
 
 	private:
 
 		scheduler();
-		std::queue<process> readyQ;
-		std::queue<process> waitQ;
+		std::queue<std::thread> readyQ;
+		std::queue<std::thread> waitQ;
 		dispatcher dp;
 		memoryManager mm;
 
