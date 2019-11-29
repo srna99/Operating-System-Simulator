@@ -9,11 +9,8 @@
 using namespace std;
 
 
-int process::idCounter = 0;
-
 process::process(string name, string path) {
 
-	incrementIdCounter();
 	currentPcb.setMemory(0);
 
 	setName(name);
@@ -34,7 +31,6 @@ void process::setFilePath(string path) {
 	filePath = path;
 }
 
-void process::incrementIdCounter() {
-	idCounter++;
-	currentPcb.setProcessId(idCounter);
+void process::setProcessId(int id) {
+	currentPcb.setProcessId(id);
 }

@@ -9,13 +9,15 @@
 #include <iostream>
 #include <random>
 
-
 using namespace std;
 
-//THREADS
+
 bool interruptSignal = false;
 
-processManager::processManager() { signalActive = true; }
+processManager::processManager() {
+	signalActive = true;
+	idCount = 0;
+}
 processManager::~processManager() {}
 
 vector<process> processManager::getProcesses() {
@@ -30,6 +32,7 @@ void processManager::createProcess(int processNumber, int numberToMake) {
 	for(int i = 0; i < numberToMake; i++) {
 
 		process process(data.first, data.second);
+		process.setProcessId(++idCount);
 		dp.updateState(New, process.getPcb());
 
 		processes.push_back(process);
@@ -61,15 +64,9 @@ pair<string, string> processManager::chooseFile(int number) {
 
 }
 
-//void processManager::start(process process) {
-//	pthread_create(&thread, NULL, (void *) openProcess, (void *) process);
-//}
-
-//void *processManager::openProcess(void *proc) {	//thread here?
 void processManager::openProcess(process *p) {
 
 	ifstream inFile;
-	//process p = (process) proc;
 	inFile.open(p->getFilePath());
 
 	if (!inFile) {

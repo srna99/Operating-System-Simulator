@@ -8,11 +8,11 @@
 #include "scheduler.h"
 #include "memoryManager.h"
 #include <iostream>
-//#include <pthread.h>
+#include <thread>
 
 using namespace std;
 
-//THREADS; CHECK IF IN WAIT CYCLE
+
 int main() {
 
 	processManager pm;
@@ -50,14 +50,13 @@ int main() {
 
 	}
 
-//	pthread_t thread;
 	int counter, size;
 
 	while (scheduler::instance().getReadyQSize() > 0 || scheduler::instance().getWaitQSize() > 0) {
 
 		interruptSignal = false;
 
-		//pm.start(scheduler::instance().getFirstInReadyQ());
+//		pm.start(scheduler::instance().getFirstInReadyQ());
 //		process p = *scheduler::instance().getFirstInReadyQ();
 //		pthread_create(&thread, NULL, (void *) pm.openProcess, (void *) p);
 

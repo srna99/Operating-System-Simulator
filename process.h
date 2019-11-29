@@ -22,14 +22,13 @@ class process {
 		void setName(std::string fileName);
 		std::string getFilePath();
 		void setFilePath(std::string path);
+		void setProcessId(int id);
 
 	private:
 
 		pcb currentPcb;
 		std::string filePath;
 		std::string name;
-		static int idCounter;
-		void incrementIdCounter();
 
 };
 
