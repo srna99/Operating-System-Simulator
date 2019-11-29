@@ -25,7 +25,7 @@ class processManager {
 		std::vector<process> getProcesses();
 		void createProcess(int programNumber, int numberToMake);
 		void setMemory(process &process);
-		void openProcess(process &process);
+		void openProcess(process &process, bool firstTime);
 //		void print(process &p);
 //		void start(process process);
 //		void *openProcess(void *process);

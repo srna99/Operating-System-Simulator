@@ -10,62 +10,51 @@
 
 using namespace std;
 
-//WORK ON WAIT (CYCLES, WHERE TO ADD, DONT ADD TOO EARLY, ETC.)
+
 scheduler::scheduler() {}
 scheduler::~scheduler() {}
 
-void scheduler::addToReadyQ(thread th, bool inWaitQ) {
-
-//	dp.updateState(Ready, process.getPcb());
-	readyQ.push(th);
+void scheduler::addToReadyQ(pair<thread, process> &pair, bool inWaitQ) {
+	lock_guard<mutex> guard(mx);
+	dp.updateState(Ready, pair.second.getPcb());
+	readyQ.push(pair);
 
 	if (inWaitQ) { waitQ.pop(); }
-
-
-//	if (mm.allocateMemory(process.getPcb()->getMemory())) {
-//
-//		dp.updateState(Ready, process.getPcb());
-//		readyQ.push(process);
-//
-//		if (inWaitQ) { waitQ.pop(); }
-//
-//		return true;
-//
-//	}
-//	return false;
-
 }
 
-thread * scheduler::getFirstInReadyQ() { return readyQ.front(); }
+pair<thread, process> * scheduler::getFirstInReadyQ() { return &readyQ.front(); }
 
 void scheduler::yieldInReadyQ() {
-//	dp.updateState(Ready, readyQ.front().getPcb());
+	lock_guard<mutex> guard(mx);
+	dp.updateState(Ready, readyQ.front().second.getPcb());
 	readyQ.push(readyQ.front());
 	readyQ.pop();
 	interruptSignal = true;
 }
 
 void scheduler::removeFromReadyQ() {
-	getFirstInReadyQ().join();
-//	dp.updateState(Exit, readyQ.front().getPcb());
-//	mm.deallocateMemory(readyQ.front().getPcb()->getMemory());
+	lock_guard<mutex> guard(mx);
+	dp.updateState(Exit, readyQ.front().second.getPcb());
+	mm.deallocateMemory(readyQ.front().second.getPcb()->getMemory());
 	readyQ.pop();
 	interruptSignal = true;
 }
 
 int scheduler::getReadyQSize() { return readyQ.size(); }
 
-void scheduler::addToWaitQ(thread th, bool inReadyQ) {
-//	dp.updateState(Wait, readyQ.front().getPcb());
-	waitQ.push(th);
+void scheduler::addToWaitQ(pair<thread, process> &pair, bool inReadyQ) {
+	lock_guard<mutex> guard(mx);
+	dp.updateState(Wait, readyQ.front().second.getPcb());
+	waitQ.push(pair);
 
 	if (inReadyQ) { readyQ.pop(); }
 }
 
-thread scheduler::getFirstInWaitQ() { return waitQ.front(); }
+pair<thread, process> * scheduler::getFirstInWaitQ() { return &waitQ.front(); }
 
 void scheduler::yieldInWaitQ() {
-//	dp.updateState(Wait, waitQ.front().getPcb());
+	lock_guard<mutex> guard(mx);
+	dp.updateState(Wait, waitQ.front().second.getPcb());
 	waitQ.push(waitQ.front());
 	waitQ.pop();
 }

@@ -7,6 +7,7 @@
 #include "processManager.h"
 #include <fstream>
 #include <iostream>
+#include <thread>
 #include <random>
 
 using namespace std;
@@ -19,10 +20,6 @@ processManager::processManager() {
 	idCount = 0;
 }
 processManager::~processManager() {}
-
-//void processManager::print(process &p){
-//	cout << p.getPcb()->getMemory() << endl;
-//}
 
 vector<process> processManager::getProcesses() {
 	processes.shrink_to_fit();
@@ -98,21 +95,28 @@ void processManager::setMemory(process &process) {
 
 }
 
-void processManager::openProcess(process &process) {
+void processManager::openProcess(process &process, bool firstTime) {
 
-	ifstream inFile;
-	inFile.open(process.getFilePath());
+	if (!firstTime) {
 
-	if (!inFile) {
+		ifstream inFile;
+		inFile.open(process.getFilePath());
 
-		cout << "Unable to open file.";
-		exit(1);
+		if (!inFile) {
+
+			cout << "Unable to open file.";
+			exit(1);
+
+		} else {
+			readFile(&inFile, process);
+		}
+
+		inFile.close();
 
 	} else {
-		readFile(&inFile, process);
+		this_thread::sleep_for(chrono::seconds(4));
+//		cv.wait(mlock, std::bind(&Application::isDataLoaded, this));
 	}
-
-	inFile.close();
 
 }
 

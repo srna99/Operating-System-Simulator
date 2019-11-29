@@ -11,6 +11,8 @@
 #include "dispatcher.h"
 #include "memoryManager.h"
 #include <thread>
+#include <condition_variable>
+#include <mutex>
 #include <queue>
 
 class scheduler {
@@ -20,23 +22,25 @@ class scheduler {
 		static scheduler& instance() { static scheduler sch; return sch; };
 		virtual ~scheduler();
 
-		void addToReadyQ(std::thread th, bool inWaitQ);
-		std::thread getFirstInReadyQ();
+		void addToReadyQ(std::pair<std::thread, process> &pair, bool inWaitQ);
+		std::pair<std::thread, process> * getFirstInReadyQ();
 		void yieldInReadyQ();
 		void removeFromReadyQ();
 		int getReadyQSize();
-		void addToWaitQ(std::thread th, bool inReadyQ);
-		std::thread getFirstInWaitQ();
+		void addToWaitQ(std::pair<std::thread, process> &pair, bool inReadyQ);
+		std::pair<std::thread, process> * getFirstInWaitQ();
 		void yieldInWaitQ();
 		int getWaitQSize();
 
 	private:
 
 		scheduler();
-		std::queue<std::thread> readyQ;
-		std::queue<std::thread> waitQ;
+		std::queue<std::pair<std::thread, process>> readyQ;
+		std::queue<std::pair<std::thread, process>> waitQ;
 		dispatcher dp;
 		memoryManager mm;
+		std::mutex mx;
+		std::condition_variable cv;
 
 };
 
