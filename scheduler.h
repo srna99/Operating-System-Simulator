@@ -11,7 +11,6 @@
 #include "dispatcher.h"
 #include "memoryManager.h"
 #include <thread>
-#include <condition_variable>
 #include <mutex>
 #include <queue>
 
@@ -40,7 +39,6 @@ class scheduler {
 		dispatcher dp;
 		memoryManager mm;
 		std::mutex mx;
-		std::condition_variable cv;
 
 };
 

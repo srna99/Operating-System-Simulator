@@ -97,26 +97,25 @@ void processManager::setMemory(process &process) {
 
 void processManager::openProcess(process &process, bool firstTime) {
 
-	if (!firstTime) {
+	if (firstTime) {
+		unique_lock<mutex> guard(mx);
+//		this_thread::sleep_for(chrono::seconds(4));
+//		cv.wait(guard, [] { return threadActive; });	//make threadActive for each thread?
+	}
 
-		ifstream inFile;
-		inFile.open(process.getFilePath());
+	ifstream inFile;
+	inFile.open(process.getFilePath());
 
-		if (!inFile) {
+	if (!inFile) {
 
-			cout << "Unable to open file.";
-			exit(1);
-
-		} else {
-			readFile(&inFile, process);
-		}
-
-		inFile.close();
+		cout << "Unable to open file.";
+		exit(1);
 
 	} else {
-		this_thread::sleep_for(chrono::seconds(4));
-//		cv.wait(mlock, std::bind(&Application::isDataLoaded, this));
+		readFile(&inFile, process);
 	}
+
+	inFile.close();
 
 }
 
@@ -144,16 +143,6 @@ void processManager::readFile(ifstream *inFile, process &process) {
 		if (interruptSignal && signalActive) { break; }
 
 		process.getPcb()->setPc(++linePC);
-
-//		if (process.getPcb()->getMemory() == 0) {
-//
-//			if (line.find("Memory") != -1) {
-//				string size = line.substr(line.find(" ")+1, line.length());
-//				int memSize = atoi(size.c_str());
-//				process.getPcb()->setMemory(memSize);
-//			}
-//
-//		}
 
 		execute(line, process);
 
