@@ -21,9 +21,9 @@ int operation::calculate(int cycles) {
 }
 
 void operation::wait(int cycles) {
-//	scheduler::instance().addToWaitQ(*scheduler::instance().getFirstInReadyQ(), true);
+	scheduler::instance().addToWaitQ(*scheduler::instance().getFirstInReadyQ(), true);
 	cycleLoop(cycles, false);
-//	scheduler::instance().addToReadyQ(*scheduler::instance().getFirstInWaitQ(), true);
+	scheduler::instance().addToReadyQ(*scheduler::instance().getFirstInWaitQ(), true);
 }
 
 void operation::yield() {
@@ -54,7 +54,7 @@ void operation::cycleLoop(int cycles, bool isCalc) {
 			setLeftOverCycles(cycles);
 			break;
 		} else if (isCalc) {
-//			scheduler::instance().getFirstInReadyQ()->getPcb()->incrementRuntime();
+			scheduler::instance().getFirstInReadyQ()->second.getPcb()->incrementRuntime();
 		}
 
 		cycles--;

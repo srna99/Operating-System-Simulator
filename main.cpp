@@ -47,7 +47,7 @@ int main() {
 
 		pm.setMemory(p);
 
-		thread th(&processManager::openProcess, &pm, ref(p), true);
+		thread th(&processManager::openProcess, &pm, ref(p));
 
 		pair<thread, process> pair = make_pair(move(th), p);
 
@@ -61,29 +61,33 @@ int main() {
 
 	}
 
-	int counter, size;
+	int currentCycle;
 
 	while (scheduler::instance().getReadyQSize() > 0 || scheduler::instance().getWaitQSize() > 0) {
 
 		interruptSignal = false;
 
-		int currentCycle = 1;
-		while (currentCycle <= ROUND_ROBIN_CYCLES && !interruptSignal) {
-			scheduler::instance().getFirstInReadyQ();
+		currentCycle = 0;
+		while (currentCycle < ROUND_ROBIN_CYCLES && !interruptSignal) {
+//			scheduler::instance().getFirstInReadyQ();
 			currentCycle++;
+
+			if (rand() > (RAND_MAX * 0.85)) {
+				interruptSignal = true;
+			}
+
 		}
 
 		if (!interruptSignal) { interruptSignal = true; }
 
-		counter = 0;
-		size = scheduler::instance().getWaitQSize();
-		while (counter < size) {
-//			if(!scheduler::instance().addToReadyQ(*scheduler::instance().getFirstInWaitQ(), true)) {
-//				scheduler::instance().yieldInWaitQ();
-//			}
-
-			counter++;
-		}
+//		size = scheduler::instance().getWaitQSize();
+//		while (counter < size) {
+////			if(!scheduler::instance().addToReadyQ(*scheduler::instance().getFirstInWaitQ(), true)) {
+////				scheduler::instance().yieldInWaitQ();
+////			}
+//
+//			counter++;
+//		}
 
 	}
 

@@ -21,7 +21,7 @@ void scheduler::addToReadyQ(pair<thread, process> &pair, bool inWaitQ) {
 
 	if (inWaitQ) { waitQ.pop(); }
 }
- 
+
 pair<thread, process> * scheduler::getFirstInReadyQ() { return &readyQ.front(); }
 
 void scheduler::yieldInReadyQ() {
@@ -48,6 +48,8 @@ void scheduler::addToWaitQ(pair<thread, process> &pair, bool inReadyQ) {
 	waitQ.push(move(pair));
 
 	if (inReadyQ) { readyQ.pop(); }
+
+	interruptSignal = true;
 }
 
 pair<thread, process> * scheduler::getFirstInWaitQ() { return &waitQ.front(); }

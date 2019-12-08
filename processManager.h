@@ -27,7 +27,7 @@ class processManager {
 		std::vector<process> getProcesses();
 		void createProcess(int programNumber, int numberToMake);
 		void setMemory(process &process);
-		void openProcess(process &process, bool firstTime);
+		void openProcess(process &process);
 
 	private:
 
@@ -43,7 +43,7 @@ class processManager {
 		std::ifstream * goToLine(std::ifstream *inFile, int lineNumber, process &process);
 		void readFile(std::ifstream *inFile, process &process);
 		void execute(std::string line, process &process);
-		int generateRandomNumber();
+		int generateRandomNumber(bool wait);
 
 };
 

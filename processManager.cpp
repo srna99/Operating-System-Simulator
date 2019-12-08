@@ -5,6 +5,7 @@
  */
 
 #include "processManager.h"
+#include "scheduler.h"
 #include <fstream>
 #include <iostream>
 #include <thread>
@@ -95,27 +96,36 @@ void processManager::setMemory(process &process) {
 
 }
 
-void processManager::openProcess(process &process, bool firstTime) {
+void processManager::openProcess(process &process) {
 
-	if (firstTime) {
-		unique_lock<mutex> guard(mx);
+	while (true) {
+
+		if (this_thread::get_id() == scheduler::instance().getFirstInReadyQ()->first.get_id()
+				&& scheduler::instance().getFirstInReadyQ()->second.getPcb()->getState() == State::Exit)
+			break;
+
+//		unique_lock<mutex> guard(mx);
 //		this_thread::sleep_for(chrono::seconds(4));
-//		cv.wait(guard, [] { return threadActive; });	//make threadActive for each thread?
+		while (this_thread::get_id() != scheduler::instance().getFirstInReadyQ()->first.get_id()) {
+//			cv.wait(guard, [] { return threadActive; });	//make threadActive for each thread?
+			this_thread::sleep_for(chrono::milliseconds(5));
+		}
+
+		ifstream inFile;
+		inFile.open(process.getFilePath());
+
+		if (!inFile) {
+
+			cout << "Unable to open file.";
+			exit(1);
+
+		} else {
+			readFile(&inFile, process);
+		}
+
+		inFile.close();
+
 	}
-
-	ifstream inFile;
-	inFile.open(process.getFilePath());
-
-	if (!inFile) {
-
-		cout << "Unable to open file.";
-		exit(1);
-
-	} else {
-		readFile(&inFile, process);
-	}
-
-	inFile.close();
 
 }
 
@@ -138,7 +148,7 @@ void processManager::readFile(ifstream *inFile, process &process) {
 	goToLine(inFile, linePC, process);
 
 	string line;
-	while (getline(*inFile, line)) {
+	while (getline(*inFile, line) && this_thread::get_id() == scheduler::instance().getFirstInReadyQ()->first.get_id()) {
 
 		if (interruptSignal && signalActive) { break; }
 
@@ -173,7 +183,7 @@ void processManager::execute(string line, process &process) {
 		int cyclesLeft;
 
 		if (process.getPcb()->getCyclesLeft() == 0) {
-			cyclesLeft = op.calculate(generateRandomNumber());
+			cyclesLeft = op.calculate(generateRandomNumber(false));
 		} else {
 			cyclesLeft = op.calculate(process.getPcb()->getCyclesLeft());
 		}
@@ -185,7 +195,7 @@ void processManager::execute(string line, process &process) {
 		}
 
 	} else if (line.find("I/O") != -1) {
-		op.wait(generateRandomNumber());	//thread somewhere on wait?
+		op.wait(generateRandomNumber(true));	//thread somewhere on wait?
 	} else if (line.find("YIELD") != -1) {
 		op.yield();
 	} else if (line.find("OUT") != -1) {
@@ -196,13 +206,23 @@ void processManager::execute(string line, process &process) {
 
 }
 
-int processManager::generateRandomNumber() {
+int processManager::generateRandomNumber(bool wait) {
 
 	random_device rd;
 	mt19937 gen(rd());
-	uniform_int_distribution<> range(50, 100);
-	int x = range(gen);
 
-	return x;
+	int x, y;
+	if (wait) {
+		x = 25;
+		y = 50;
+	} else {
+		x = 50;
+		y = 100;
+	}
+
+	uniform_int_distribution<> range(x, y);
+	int num = range(gen);
+
+	return num;
 
 }
