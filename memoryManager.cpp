@@ -7,7 +7,7 @@
 #include "memoryManager.h"
 
 
-const int memoryManager::CPU_MEMORY = 4096;
+const int memoryManager::CPU_MEMORY = 500;
 int memoryManager::memoryAvailable = CPU_MEMORY;
 
 memoryManager::memoryManager() {}

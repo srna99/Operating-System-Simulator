@@ -19,7 +19,13 @@ void scheduler::addToReadyQ(pair<thread, process> &pair, bool inWaitQ) {
 	dp.updateState(Ready, pair.second.getPcb());
 	readyQ.push(move(pair));
 
-	if (inWaitQ) { waitQ.pop(); }
+	if (inWaitQ) {
+		waitQ.pop();
+		updateLists(1, true);
+	} else {
+		string s = pair.second.getName() + " " + to_string(pair.second.getPcb()->getProcessId());
+		updateLists(1, false, s);
+	}
 }
 
 pair<thread, process> * scheduler::getFirstInReadyQ() { return &readyQ.front(); }
@@ -29,6 +35,8 @@ void scheduler::yieldInReadyQ() {
 	dp.updateState(Ready, readyQ.front().second.getPcb());
 	readyQ.push(move(readyQ.front()));
 	readyQ.pop();
+
+	updateLists(2, false);
 	interruptSignal = true;
 }
 
@@ -37,6 +45,15 @@ void scheduler::removeFromReadyQ() {
 	dp.updateState(Exit, readyQ.front().second.getPcb());
 	mm.deallocateMemory(readyQ.front().second.getPcb()->getMemory());
 	readyQ.pop();
+
+	for (int i = 0; i < getWaitQSize(); i++) {
+		if(mm.allocateMemory(waitQ.front().second.getPcb()->getMemory())) {
+			addToReadyQ(*getFirstInWaitQ(), true);
+		}
+		yieldInWaitQ();
+	}
+
+	updateLists(5, false);
 	interruptSignal = true;
 }
 
@@ -47,7 +64,13 @@ void scheduler::addToWaitQ(pair<thread, process> &pair, bool inReadyQ) {
 	dp.updateState(Wait, readyQ.front().second.getPcb());
 	waitQ.push(move(pair));
 
-	if (inReadyQ) { readyQ.pop(); }
+	if (inReadyQ) {
+		readyQ.pop();
+		updateLists(3, true);
+	} else {
+		string s = pair.second.getName() + " " + to_string(pair.second.getPcb()->getProcessId());
+		updateLists(3, false, s);
+	}
 
 	interruptSignal = true;
 }
@@ -59,6 +82,8 @@ void scheduler::yieldInWaitQ() {
 	dp.updateState(Wait, waitQ.front().second.getPcb());
 	waitQ.push(move(waitQ.front()));
 	waitQ.pop();
+
+	updateLists(4, false);
 }
 
 int scheduler::getWaitQSize() { return waitQ.size(); }

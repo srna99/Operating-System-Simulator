@@ -30,15 +30,16 @@ void operation::yield() {
 	scheduler::instance().yieldInReadyQ();
 }
 
-void operation::out(process &process) {
+string operation::out(process &process) {
 
-	cout << endl;
-	cout << "Name: " << process.getName() << endl;
-	cout << "Process ID: " << process.getPcb()->getProcessId() << endl;
-	cout << "State: " << process.getPcb()->getState() << endl;
-	cout << "Runtime: " << process.getPcb()->getRuntime() << endl;
-	cout << "Memory: " << process.getPcb()->getMemory() << endl;
-	cout << "PC: " << process.getPcb()->getPc() << endl;
+	string s =  "Name: " + process.getName() +
+			"\nProcess ID: " + to_string(process.getPcb()->getProcessId()) +
+			"\nState: " + to_string(process.getPcb()->getState()) +
+			"\nRuntime: " + to_string(process.getPcb()->getRuntime()) +
+			"\nMemory: " + to_string(process.getPcb()->getMemory()) +
+			"\nPC: " + to_string(process.getPcb()->getPc());
+
+	return s;
 
 }
 
@@ -55,6 +56,7 @@ void operation::cycleLoop(int cycles, bool isCalc) {
 			break;
 		} else if (isCalc) {
 			scheduler::instance().getFirstInReadyQ()->second.getPcb()->incrementRuntime();
+			updatePCB(scheduler::instance().getFirstInReadyQ()->second);
 		}
 
 		cycles--;

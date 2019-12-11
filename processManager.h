@@ -16,6 +16,8 @@
 #include <condition_variable>
 
 extern bool interruptSignal;
+extern void updateLists(int mode, bool inReadyOrWaitQ, std::string data = "");
+extern void updatePCB(process &process);
 
 class processManager {
 

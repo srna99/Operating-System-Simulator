@@ -19,7 +19,7 @@ class operation {
 		int calculate(int cycles);
 		void wait(int cycles);
 		void yield();
-		void out(process &process);
+		std::string out(process &process);
 		void exit();
 		void cycleLoop(int cycles, bool isCalc);
 		int getLeftOverCycles();

@@ -22,7 +22,9 @@ void pcb::setState(State currentState) { state = currentState; }
 
 int pcb::getRuntime() { return runtime; }
 void pcb::setRuntime(int time) { runtime = time; }
-void pcb::incrementRuntime() { runtime++; }
+void pcb::incrementRuntime() {
+	setRuntime(runtime+1);
+}
 
 int pcb::getCyclesLeft() { return cyclesLeft; }
 void pcb::setCyclesLeft(int cycles) { cyclesLeft = cycles; }

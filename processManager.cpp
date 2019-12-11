@@ -81,7 +81,7 @@ void processManager::setMemory(process &process) {
 		string line;
 		while (getline(inFile, line)) {
 
-			if (line.find("Memory") != -1) {
+			if (line.find("Memory") != string::npos) {
 				string size = line.substr(line.find(" ")+1, line.length());
 				int memSize = atoi(size.c_str());
 				process.getPcb()->setMemory(memSize);
@@ -104,10 +104,7 @@ void processManager::openProcess(process &process) {
 				&& scheduler::instance().getFirstInReadyQ()->second.getPcb()->getState() == State::Exit)
 			break;
 
-//		unique_lock<mutex> guard(mx);
-//		this_thread::sleep_for(chrono::seconds(4));
 		while (this_thread::get_id() != scheduler::instance().getFirstInReadyQ()->first.get_id()) {
-//			cv.wait(guard, [] { return threadActive; });	//make threadActive for each thread?
 			this_thread::sleep_for(chrono::milliseconds(5));
 		}
 
@@ -116,7 +113,7 @@ void processManager::openProcess(process &process) {
 
 		if (!inFile) {
 
-			cout << "Unable to open file.";
+			cout << "Unable to open file: " + process.getPcb()->getProcessId() << endl;
 			exit(1);
 
 		} else {
@@ -150,13 +147,18 @@ void processManager::readFile(ifstream *inFile, process &process) {
 	string line;
 	while (getline(*inFile, line) && this_thread::get_id() == scheduler::instance().getFirstInReadyQ()->first.get_id()) {
 
-		if (interruptSignal && signalActive) { break; }
+		updatePCB(process);
+
+		if (interruptSignal && signalActive) {
+			op.yield();
+			break;
+		}
 
 		process.getPcb()->setPc(++linePC);
 
 		execute(line, process);
 
-		if (line.find("<CRITICAL_SECTION>") != -1) {
+		if (line.find("<CRITICAL_SECTION>") != string::npos) {
 
 			if (lock.acquire()) {
 				signalActive = false;
@@ -165,7 +167,7 @@ void processManager::readFile(ifstream *inFile, process &process) {
 				op.yield();
 			}
 
-		} else if (line.find("</CRITICAL_SECTION>") != -1) {
+		} else if (line.find("</CRITICAL_SECTION>") != string::npos) {
 			lock.release();
 			signalActive = true;
 		}
@@ -176,7 +178,7 @@ void processManager::readFile(ifstream *inFile, process &process) {
 
 void processManager::execute(string line, process &process) {
 
-	if (line.find("CALCULATE") != -1) {
+	if (line.find("CALCULATE") != string::npos) {
 
 		dp.updateState(Run, process.getPcb());
 
@@ -194,13 +196,13 @@ void processManager::execute(string line, process &process) {
 			op.yield();
 		}
 
-	} else if (line.find("I/O") != -1) {
+	} else if (line.find("I/O") != string::npos) {
 		op.wait(generateRandomNumber(true));	//thread somewhere on wait?
-	} else if (line.find("YIELD") != -1) {
+	} else if (line.find("YIELD") != string::npos) {
 		op.yield();
-	} else if (line.find("OUT") != -1) {
-		op.out(process);
-	} else if (line.find("EXE") != -1) {
+	} else if (line.find("OUT") != string::npos) {
+		cout << op.out(process) << endl;
+	} else if (line.find("EXE") != string::npos) {
 		op.exit();
 	}
 
@@ -211,16 +213,7 @@ int processManager::generateRandomNumber(bool wait) {
 	random_device rd;
 	mt19937 gen(rd());
 
-	int x, y;
-	if (wait) {
-		x = 25;
-		y = 50;
-	} else {
-		x = 50;
-		y = 100;
-	}
-
-	uniform_int_distribution<> range(x, y);
+	uniform_int_distribution<> range(25, 50);
 	int num = range(gen);
 
 	return num;
